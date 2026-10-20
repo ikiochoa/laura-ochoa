@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import photo from '../assets/laura.jpg';
 import Card from '../components/Card.astro';
 import CardGrid from '../components/CardGrid.astro';
 import { profile, chapters } from '../data/profile';
@@ -23,7 +25,7 @@ const chapterColors = ['pink', 'marigold', 'teal', 'purple', 'coral', 'text'];
       </p>
     </div>
     <figure class="photo">
-      <div class="photo-placeholder">Photo of Laura</div>
+      <Image src={photo} alt="Laura smiling on her road bike, high above the sea" widths={[480, 960]} sizes="(min-width: 48rem) 22rem, 90vw" loading="eager" />
     </figure>
   </section>
 
@@ -101,13 +103,11 @@ const chapterColors = ['pink', 'marigold', 'teal', 'purple', 'coral', 'text'];
     inset: 1.25rem -1.25rem -1.25rem 1.25rem;
     background: var(--marigold);
   }
-  .photo-placeholder {
+  .photo img {
     position: relative;
-    aspect-ratio: 4 / 5;
-    background: #f3e6da;
-    display: grid;
-    place-items: center;
-    color: #6d5a4b;
+    display: block;
+    width: 100%;
+    height: auto;
   }
   section + section { padding-top: 3.5rem; }
   .section-head {
