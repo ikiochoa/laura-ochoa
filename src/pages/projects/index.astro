@@ -1,18 +1,31 @@
 ---
 import Base from '../../layouts/Base.astro';
-import NoteGrid from '../../components/NoteGrid.astro';
-import { getNotes } from '../../data/notes';
+import Card from '../../components/Card.astro';
+import CardGrid from '../../components/CardGrid.astro';
+import { getProjects, projectStages } from '../../data/content';
 
-const projects = (await getNotes()).filter((note) => note.kind === 'Project');
+const base = import.meta.env.BASE_URL;
+const projects = await getProjects();
+const stages = Object.entries(projectStages) as [keyof typeof projectStages, string][];
 ---
-<Base title="Projects" description="Things Laura has built.">
-  <header class="intro">
+<Base title="Projects" description="Things Laura Ochoa builds, from first idea to done.">
+  <header class="page-intro">
     <h1>Projects</h1>
-    <p class="muted">Things I've built, and what I learned building them.</p>
+    <p class="muted">Things I build, from a first idea to done.</p>
   </header>
-  <NoteGrid notes={projects} empty="Projects coming soon." />
+  {stages.map(([stage, label]) => {
+    const inStage = projects.filter((p) => p.data.stage === stage);
+    return inStage.length > 0 && (
+      <section class="stage">
+        <h2>{label}</h2>
+        <CardGrid count={inStage.length}>
+          {inStage.map((p) => <Card href={`${base}projects/${p.id}/`} title={p.data.title} summary={p.data.summary} />)}
+        </CardGrid>
+      </section>
+    );
+  })}
 </Base>
 
 <style>
-  .intro { padding: 2rem 0 1.5rem; max-width: 44rem; }
+  .stage { padding-bottom: 1.5rem; }
 </style>

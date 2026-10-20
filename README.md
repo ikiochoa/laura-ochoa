@@ -9,20 +9,20 @@ Live at https://ikiochoa.github.io/laura-ochoa/ once GitHub Pages is switched on
 | What | File |
 | --- | --- |
 | Me: intro, places, languages, links | `src/data/profile.ts` |
-| My career, as chapters | `chapters` in `src/data/profile.ts` |
-| Ideas | `src/content/ideas/*.md` |
-| Book notes | `src/content/books/*.md` |
-| Projects | `src/content/projects/*.md` |
+| My story: career chapters, skills, what's next, hobbies | `src/data/profile.ts` |
+| People who shaped my thinking | `thinkers` in `src/data/profile.ts` |
+| Thoughts on how I see the world | `src/content/thoughts/*.md` |
+| Books and highlights | `src/content/books/*.md` |
+| Projects (stage: `idea`, `in-progress` or `done`) | `src/content/projects/*.md` |
 
-To add an idea or a book note, copy the `_example.md` file in its folder and remove `draft: true`. Each note has a stage: `seedling` (fresh thought), `growing` (being worked on) or `evergreen` (settled thinking).
+To add a thought or a book, copy the `_example.md` file in its folder and remove `draft: true`.
 
 ## Pages
 
-- `/` home: who I am, my story in chapters, latest from the garden
-- `/story/` the full story
-- `/garden/` every idea, book note and project
-- `/bookshelf/` book notes, each with its own page
-- `/projects/` projects, each with its own page
+- `/` home: who I am, my story in chapters, latest thoughts and projects
+- `/story/` career chapters, `/story/skills/` skills and what's next, `/story/beyond-work/` hobbies, places and languages
+- `/thoughts/` how I see the world, `/thoughts/bookshelf/` books and highlights, `/thoughts/people/` people who shaped me
+- `/projects/` everything I build, grouped by stage, each with its own page
 - `/hello/` how to reach me
 
 ## Running locally

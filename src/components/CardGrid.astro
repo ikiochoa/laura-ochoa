@@ -1,0 +1,16 @@
+---
+interface Props {
+  empty?: string;
+  count: number;
+}
+const { empty = 'Coming soon.', count } = Astro.props;
+---
+{count === 0 ? <p class="muted">{empty}</p> : <div class="grid"><slot /></div>}
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: 1rem;
+  }
+</style>

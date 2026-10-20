@@ -1,18 +1,19 @@
 ---
-import Base from '../layouts/Base.astro';
-import { profile, chapters } from '../data/profile';
+import Base from '../../layouts/Base.astro';
+import StoryNav from '../../components/StoryNav.astro';
+import { profile, chapters } from '../../data/profile';
 ---
-<Base title="My story" description="Laura Ochoa's career, told as a story.">
-  <header class="intro">
+<Base title="My story" description="Laura Ochoa's story, told in chapters.">
+  <StoryNav />
+  <header class="page-intro">
     <h1>My story, so far</h1>
     <p class="muted">
       From {profile.places[0]} to {profile.home}, by way of {profile.places.slice(1, -1).join(' and ')}.
-      I speak {profile.languages.join(', ')}.
     </p>
   </header>
 
   {chapters.map((chapter) => (
-    <section class="chapter" id={`chapter-${chapter.number.toLowerCase()}`}>
+    <section class="chapter prose" id={`chapter-${chapter.number.toLowerCase()}`}>
       <p class="eyebrow">Chapter {chapter.number.toLowerCase()} · {chapter.period}</p>
       <h2>{chapter.title}</h2>
       <p>{chapter.summary}</p>
@@ -26,13 +27,14 @@ import { profile, chapters } from '../data/profile';
           ))}
         </ul>
       )}
+      {chapter.loved && <p><strong>What I loved:</strong> {chapter.loved}</p>}
+      {chapter.learned && <p><strong>What I learned:</strong> {chapter.learned}</p>}
     </section>
   ))}
 </Base>
 
 <style>
-  .intro { padding: 2rem 0 1rem; max-width: 44rem; }
-  .chapter { max-width: 44rem; padding: 2rem 0; border-top: 1px solid var(--line); }
+  .chapter { padding: 2rem 0; border-top: 1px solid var(--line); }
   .chapter h2 { margin: 0.25rem 0 0.75rem; }
   .roles { padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; }
   .roles p { margin: 0.25rem 0 0; }

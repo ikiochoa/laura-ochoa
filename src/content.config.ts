@@ -2,45 +2,41 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-// How far a note has grown: a fresh thought, a work in progress, or settled thinking.
-const stage = z.enum(['seedling', 'growing', 'evergreen']);
-
-const ideas = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/ideas' }),
+// Reflections on how I see the world.
+const thoughts = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/thoughts' }),
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    stage,
-    planted: z.coerce.date(),
-    tended: z.coerce.date().optional(),
+    written: z.coerce.date(),
     draft: z.boolean().default(false),
   }),
 });
 
+// Books I've read, with my notes and highlights (Kindle or paper).
 const books = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/books' }),
   schema: z.object({
     title: z.string(),
     author: z.string(),
     read: z.string(),
-    quote: z.string().optional(),
-    stage,
-    tended: z.coerce.date(),
+    format: z.enum(['kindle', 'paper']).optional(),
+    highlights: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
   }),
 });
 
+// Things I build, from a first idea to done.
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    stage,
+    stage: z.enum(['idea', 'in-progress', 'done']),
     url: z.string().url().optional(),
-    built: z.string(),
-    featured: z.boolean().default(false),
+    builtWith: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });
 
-export const collections = { ideas, books, projects };
+export const collections = { thoughts, books, projects };

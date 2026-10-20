@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import ThoughtsNav from '../../components/ThoughtsNav.astro';
+import { thinkers } from '../../data/profile';
+---
+<Base title="People who shaped me" description="Psychologists and writers who shaped how Laura Ochoa sees the world.">
+  <ThoughtsNav />
+  <header class="page-intro">
+    <h1>People who shaped me</h1>
+    <p class="muted">Psychologists and writers whose ideas I keep coming back to.</p>
+  </header>
+  <ul class="people prose">
+    {thinkers.map((person) => (
+      <li>
+        <h2>{person.name}</h2>
+        {person.note && <p>{person.note}</p>}
+      </li>
+    ))}
+  </ul>
+</Base>
+
+<style>
+  .people { list-style: none; padding: 0; }
+  .people li { padding: 1rem 0; border-top: 1px solid var(--line); }
+  .people h2 { margin: 0; font-size: 1.25rem; }
+</style>

@@ -1,19 +1,20 @@
 ---
-import { stageLabel, type Note } from '../data/notes';
-
 interface Props {
-  note: Note;
+  href: string;
+  title: string;
+  meta?: string;
+  summary?: string;
 }
-const { note } = Astro.props;
+const { href, title, meta, summary } = Astro.props;
 ---
-<a class="note" href={note.href}>
-  <span class="meta">{stageLabel[note.stage]} · {note.kind}</span>
-  <span class="title">{note.title}</span>
-  <span class="summary">{note.summary}</span>
+<a class="card" href={href}>
+  {meta && <span class="meta">{meta}</span>}
+  <span class="title">{title}</span>
+  {summary && <span class="summary">{summary}</span>}
 </a>
 
 <style>
-  .note {
+  .card {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
@@ -24,7 +25,7 @@ const { note } = Astro.props;
     color: var(--text);
     text-decoration: none;
   }
-  .note:hover { border-color: var(--accent); }
+  .card:hover { border-color: var(--accent); }
   .meta { font-size: 0.85rem; color: var(--muted); }
   .title { font-size: 1.2rem; font-weight: 600; }
   .summary { color: var(--muted); }

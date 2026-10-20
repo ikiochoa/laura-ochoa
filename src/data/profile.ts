@@ -8,6 +8,7 @@ export const profile = {
     "Product and data person in Zurich. I've led teams at Swisscom, notime and Digitec Galaxus, and I still love building things myself.",
   home: 'Zurich, Switzerland',
   places: ['Mexico', 'Germany', 'the United States', 'Switzerland'],
+  loves: ['Italy'],
   languages: ['Spanish', 'English', 'German', 'Italian (learning)'],
   links: {
     linkedin: 'https://www.linkedin.com/in/laura-ochoa-6322809/',
@@ -21,6 +22,9 @@ export type Chapter = {
   period: string;
   summary: string;
   roles?: { title: string; org: string; period: string; note?: string }[];
+  // TODO(Laura): what you enjoyed most and what you took away from each chapter.
+  loved?: string;
+  learned?: string;
 };
 
 // My career as a story. The last chapter is still being written.
@@ -98,8 +102,47 @@ export const chapters: Chapter[] = [
   },
   {
     number: 'Five',
+    title: 'Our family sabbatical',
+    period: '2025 – 2026',
+    summary: 'Time away from work with my family. The stories and what we learned are coming soon.',
+  },
+  {
+    number: 'Six',
     title: 'The next chapter',
     period: 'now',
     summary: 'Being written.',
   },
+];
+
+// What I bring to work. Grouped by theme, drawn from the roles above.
+export const skills = [
+  {
+    area: 'Product',
+    items: ['Product management, from product owner to CPO', 'Turning new technology into B2B products', 'Agile teams'],
+  },
+  {
+    area: 'Data',
+    items: ['Data analytics and data science', 'Natural language processing products', 'Interactive data visualisation'],
+  },
+  {
+    area: 'Leadership',
+    items: ['Leading product and data teams', 'Scouting technology and partners'],
+  },
+];
+
+// TODO(Laura): what you would dream of doing next.
+export const dreamNext = 'Being written.';
+
+export const hobbies = [
+  { name: 'Reading', note: 'Books feed my thinking. Some of them live on my bookshelf.' },
+  { name: 'Languages', note: 'Learning Italian right now.' },
+  { name: 'Building things', note: 'Small apps that scratch my own itch, like Mot-a-mot.' },
+  { name: 'Italy', note: 'A country I love.' },
+];
+
+// Thinkers whose work shaped how I see the world.
+// TODO(Laura): a line on what each one taught you, and anyone else to add.
+export const thinkers = [
+  { name: 'Gabor Maté', note: '' },
+  { name: 'Friedemann Schulz von Thun', note: '' },
 ];

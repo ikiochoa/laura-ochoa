@@ -1,0 +1,20 @@
+---
+import Base from '../../../layouts/Base.astro';
+import ThoughtsNav from '../../../components/ThoughtsNav.astro';
+import Card from '../../../components/Card.astro';
+import CardGrid from '../../../components/CardGrid.astro';
+import { getBooks } from '../../../data/content';
+
+const base = import.meta.env.BASE_URL;
+const books = await getBooks();
+---
+<Base title="Bookshelf" description="Books Laura Ochoa has read, with her highlights.">
+  <ThoughtsNav />
+  <header class="page-intro">
+    <h1>Bookshelf</h1>
+    <p class="muted">Books that shaped my thinking, with the lines I highlighted.</p>
+  </header>
+  <CardGrid count={books.length} empty="The first books are on their way.">
+    {books.map((b) => <Card href={`${base}thoughts/bookshelf/${b.id}/`} title={b.data.title} meta={b.data.author} />)}
+  </CardGrid>
+</Base>

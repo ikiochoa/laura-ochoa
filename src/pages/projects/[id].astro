@@ -1,10 +1,10 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import { stageLabel } from '../../data/notes';
+import { getProjects, projectStages } from '../../data/content';
 
 export async function getStaticPaths() {
-  const projects = await getCollection('projects', ({ data }) => !data.draft);
+  const projects = await getProjects();
   return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
 }
 
@@ -12,15 +12,18 @@ const { project } = Astro.props;
 const { Content } = await render(project);
 ---
 <Base title={project.data.title} description={project.data.summary}>
-  <article>
-    <p class="eyebrow">Project · {stageLabel[project.data.stage]}</p>
+  <article class="prose">
+    <p class="eyebrow">Project · {projectStages[project.data.stage]}</p>
     <h1>{project.data.title}</h1>
-    <p class="muted">{project.data.summary} Built with {project.data.built}.</p>
+    <p class="muted">
+      {project.data.summary}
+      {project.data.builtWith && ` Built with ${project.data.builtWith}.`}
+    </p>
     {project.data.url && <p><a href={project.data.url}>Visit {project.data.title}</a></p>}
     <Content />
   </article>
 </Base>
 
 <style>
-  article { max-width: 44rem; padding: 2rem 0; }
+  article { padding: 2rem 0; }
 </style>

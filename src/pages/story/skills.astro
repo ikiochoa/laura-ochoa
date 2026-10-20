@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import StoryNav from '../../components/StoryNav.astro';
+import { skills, dreamNext } from '../../data/profile';
+---
+<Base title="Skills and what's next" description="What Laura Ochoa brings to work, and what she'd love to do next.">
+  <StoryNav />
+  <header class="page-intro">
+    <h1>Skills and what's next</h1>
+    <p class="muted">What I bring to work, and where I'd love to take it.</p>
+  </header>
+
+  <div class="skills">
+    {skills.map((group) => (
+      <section>
+        <h2>{group.area}</h2>
+        <ul>{group.items.map((item) => <li>{item}</li>)}</ul>
+      </section>
+    ))}
+  </div>
+
+  <section class="prose next">
+    <h2>What I'd dream of doing next</h2>
+    <p>{dreamNext}</p>
+  </section>
+</Base>
+
+<style>
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: 1.5rem;
+  }
+  .skills ul { padding-left: 1.25rem; }
+  .next { padding-top: 2rem; border-top: 1px solid var(--line); margin-top: 1rem; }
+</style>

@@ -1,21 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
-import NoteGrid from '../components/NoteGrid.astro';
+import Card from '../components/Card.astro';
+import CardGrid from '../components/CardGrid.astro';
 import { profile, chapters } from '../data/profile';
-import { getNotes } from '../data/notes';
+import { getProjects, getThoughts, projectStages } from '../data/content';
 
 const base = import.meta.env.BASE_URL;
-const notes = (await getNotes()).slice(0, 6);
+const projects = await getProjects();
+const thoughts = (await getThoughts()).slice(0, 3);
 ---
 <Base>
   <section class="hero">
-    <div class="me">
+    <div>
       <p class="eyebrow">{profile.greeting}</p>
       <h1>I'm Laura. {profile.headline}</h1>
       <p class="intro">{profile.intro}</p>
       <p class="actions">
         <a class="button" href={`${base}story/`}>Read my story</a>
-        <a class="button secondary" href={`${base}garden/`}>Wander the garden</a>
+        <a class="button secondary" href={`${base}projects/`}>See my projects</a>
       </p>
     </div>
     <figure class="photo">
@@ -24,7 +26,7 @@ const notes = (await getNotes()).slice(0, 6);
   </section>
 
   <section>
-    <h2>My story, so far</h2>
+    <h2><a href={`${base}story/`}>My story, so far</a></h2>
     <ol class="chapters">
       {chapters.map((chapter) => (
         <li>
@@ -39,9 +41,21 @@ const notes = (await getNotes()).slice(0, 6);
   </section>
 
   <section>
-    <h2>From the garden</h2>
-    <p class="muted">Ideas, book notes and projects. Some are seeds, some are fully grown.</p>
-    <NoteGrid notes={notes} empty="Nothing planted yet." />
+    <h2><a href={`${base}thoughts/`}>Thoughts</a></h2>
+    <p class="muted">How I see the world, the books that shaped it, and the people I learn from.</p>
+    <CardGrid count={thoughts.length} empty="The first thoughts are on their way.">
+      {thoughts.map((t) => <Card href={`${base}thoughts/${t.id}/`} title={t.data.title} summary={t.data.summary} />)}
+    </CardGrid>
+  </section>
+
+  <section>
+    <h2><a href={`${base}projects/`}>Projects</a></h2>
+    <p class="muted">Things I build, from first idea to done.</p>
+    <CardGrid count={projects.length}>
+      {projects.map((p) => (
+        <Card href={`${base}projects/${p.id}/`} title={p.data.title} meta={projectStages[p.data.stage]} summary={p.data.summary} />
+      ))}
+    </CardGrid>
   </section>
 </Base>
 
@@ -54,6 +68,7 @@ const notes = (await getNotes()).slice(0, 6);
     padding: 3rem 0;
   }
   h1 { font-size: clamp(2rem, 5vw, 3.25rem); margin: 0.5rem 0 1rem; }
+  h2 a { color: var(--text); text-decoration: none; }
   .intro { font-size: 1.2rem; color: var(--muted); max-width: 38rem; }
   .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
   .button {
@@ -83,9 +98,9 @@ const notes = (await getNotes()).slice(0, 6);
     list-style: none;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
     gap: 1.5rem;
   }
   .chapters a { display: flex; flex-direction: column; gap: 0.25rem; color: var(--text); text-decoration: none; }
-  .chapter-title { font-size: 1.15rem; font-weight: 600; }
+  .chapter-title { font-size: 1.1rem; font-weight: 600; }
 </style>
