@@ -1,13 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import { profile } from '../data/profile';
+
+const fluent = profile.languages.filter((l) => !l.includes('learning'));
+const spoken = `${fluent.slice(0, -1).join(', ')} or ${fluent.at(-1)}`;
 ---
 <Base title="Say hello" description="How to reach Laura Ochoa.">
   <section class="hello">
     <h1>Say hello</h1>
     <p>
-      I'm based in {profile.home} and happy to talk about product, data, or a good book, in 
-      {profile.languages.filter((l) => !l.includes('learning')).join(', ')}.
+      I'm based in {profile.home} and happy to talk about product, data, or a good book, in {spoken}.
     </p>
     <p>The easiest way to reach me is on <a href={profile.links.linkedin}>LinkedIn</a>.</p>
   </section>
