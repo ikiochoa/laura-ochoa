@@ -97,20 +97,29 @@ export const chapters: Chapter[] = [
     number: 'Four',
     title: 'Leading data at Digitec Galaxus',
     period: '2022 – 2025',
-    summary: 'Leading a data analytics team.',
-    roles: [{ title: 'Team Lead Data Analytics', org: 'Digitec Galaxus', period: '2022 – 2025' }],
+    summary:
+      'Together with our Product Owner, I co-led a cross-functional team of up to eight data analysts, data scientists and machine learning engineers. We served the whole Order Management Area with data and models, from finance and fraud detection to order management.',
+    roles: [
+      {
+        title: 'Team Lead Data Analytics',
+        org: 'Digitec Galaxus',
+        period: '2022 – 2025',
+        note: 'I built an ambitious, innovative and psychologically safe team, hired across analytics, data science and engineering, and pushed for stable, scalable systems with less technical debt. I also stayed hands-on with BigQuery, Dataform, Tableau and Kafka.',
+      },
+    ],
   },
   {
     number: 'Five',
     title: 'Our family sabbatical',
-    period: '2025 – 2026',
+    period: '2025 – now',
     summary: 'Time away from work with my family. The stories and what we learned are coming soon.',
   },
   {
     number: 'Six',
     title: 'The next chapter',
-    period: 'now',
-    summary: 'Being written.',
+    period: 'coming up',
+    summary:
+      "I'm looking for my next role in product, data and leadership, in Zurich, on-site, hybrid or remote. If you know of something that fits, say hello.",
   },
 ];
 
@@ -122,11 +131,21 @@ export const skills = [
   },
   {
     area: 'Data',
-    items: ['Data analytics and data science', 'Natural language processing products', 'Interactive data visualisation'],
+    items: [
+      'Data analytics and data science',
+      'Natural language processing products',
+      'Interactive data visualisation',
+      'BigQuery, Dataform, Tableau and Kafka',
+    ],
   },
   {
     area: 'Leadership',
-    items: ['Leading product and data teams', 'Scouting technology and partners'],
+    items: [
+      'Leading product and data teams',
+      'Building ambitious, psychologically safe teams',
+      'Hiring across analytics, data science and engineering',
+      'Scouting technology and partners',
+    ],
   },
 ];
 
