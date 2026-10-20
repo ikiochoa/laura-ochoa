@@ -8,11 +8,13 @@ import { getProjects, getThoughts, projectStages } from '../data/content';
 const base = import.meta.env.BASE_URL;
 const projects = await getProjects();
 const thoughts = (await getThoughts()).slice(0, 3);
+// The chapters cycle through the Mercado palette.
+const chapterColors = ['pink', 'marigold', 'teal', 'purple', 'coral', 'text'];
 ---
 <Base>
   <section class="hero">
     <div>
-      <p class="eyebrow">{profile.greeting}</p>
+      <p class="greeting">{profile.greeting}</p>
       <h1>I'm Laura. {profile.headline}</h1>
       <p class="intro">{profile.intro}</p>
       <p class="actions">
@@ -25,13 +27,16 @@ const thoughts = (await getThoughts()).slice(0, 3);
     </figure>
   </section>
 
-  <section>
-    <h2><a href={`${base}story/`}>My story, so far</a></h2>
+  <section data-accent="pink">
+    <div class="section-head">
+      <h2>My story, so far</h2>
+      <a href={`${base}story/`}>Read it all</a>
+    </div>
     <ol class="chapters">
-      {chapters.map((chapter) => (
-        <li>
+      {chapters.map((chapter, i) => (
+        <li style={`--chapter: var(--${chapterColors[i % chapterColors.length]})`}>
           <a href={`${base}story/#chapter-${chapter.number.toLowerCase()}`}>
-            <span class="eyebrow">Chapter {chapter.number.toLowerCase()}</span>
+            <span class="number">{String(i + 1).padStart(2, '0')}</span>
             <span class="chapter-title">{chapter.title}</span>
             <span class="muted">{chapter.period}</span>
           </a>
@@ -40,16 +45,22 @@ const thoughts = (await getThoughts()).slice(0, 3);
     </ol>
   </section>
 
-  <section>
-    <h2><a href={`${base}thoughts/`}>Thoughts</a></h2>
+  <section data-accent="teal">
+    <div class="section-head">
+      <h2>My philosophy</h2>
+      <a href={`${base}philosophy/`}>Explore</a>
+    </div>
     <p class="muted">How I see the world, the books that shaped it, and the people I learn from.</p>
     <CardGrid count={thoughts.length} empty="The first thoughts are on their way.">
-      {thoughts.map((t) => <Card href={`${base}thoughts/${t.id}/`} title={t.data.title} summary={t.data.summary} />)}
+      {thoughts.map((t) => <Card href={`${base}philosophy/${t.id}/`} title={t.data.title} summary={t.data.summary} />)}
     </CardGrid>
   </section>
 
-  <section>
-    <h2><a href={`${base}projects/`}>Projects</a></h2>
+  <section data-accent="purple">
+    <div class="section-head">
+      <h2>Projects</h2>
+      <a href={`${base}projects/`}>See all</a>
+    </div>
     <p class="muted">Things I build, from first idea to done.</p>
     <CardGrid count={projects.length}>
       {projects.map((p) => (
@@ -62,45 +73,73 @@ const thoughts = (await getThoughts()).slice(0, 3);
 <style>
   .hero {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: 3rem 4rem;
     align-items: center;
-    padding: 3rem 0;
+    padding: 3rem 0 4rem;
   }
-  h1 { font-size: clamp(2rem, 5vw, 3.25rem); margin: 0.5rem 0 1rem; }
-  h2 a { color: var(--text); text-decoration: none; }
-  .intro { font-size: 1.2rem; color: var(--muted); max-width: 38rem; }
-  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+  .greeting { margin: 0; font-weight: 700; color: var(--pink); }
+  h1 { margin: 0.75rem 0 1.25rem; }
+  .intro { font-size: 1.2rem; color: var(--muted); max-width: 36rem; margin: 0; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
   .button {
     display: inline-block;
-    padding: 0.75rem 1.25rem;
-    border-radius: 0.5rem;
-    background: var(--accent);
-    color: #fff;
+    padding: 0.85rem 1.4rem;
+    background: var(--pink);
+    color: var(--on-pink);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
+    border: 2px solid var(--pink);
   }
-  .button.secondary { background: transparent; color: var(--text); border: 1.5px solid var(--text); }
-  .photo { margin: 0; }
+  .button:hover { background: var(--night); border-color: var(--night); }
+  .button.secondary { background: transparent; color: var(--text); border-color: var(--text); }
+  .button.secondary:hover { background: var(--text); color: var(--bg); }
+  .photo { margin: 0 1.25rem 1.25rem 0; position: relative; max-width: 22rem; justify-self: center; width: calc(100% - 1.25rem); }
+  .photo::before {
+    content: '';
+    position: absolute;
+    inset: 1.25rem -1.25rem -1.25rem 1.25rem;
+    background: var(--marigold);
+  }
   .photo-placeholder {
+    position: relative;
     aspect-ratio: 4 / 5;
-    max-width: 22rem;
-    margin-inline: auto;
-    border-radius: 1rem;
-    background: var(--surface);
-    border: 1px dashed var(--line);
+    background: #f3e6da;
     display: grid;
     place-items: center;
-    color: var(--muted);
+    color: #6d5a4b;
   }
-  section { padding-top: 2.5rem; }
+  section + section { padding-top: 3.5rem; }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    border-top: 2px solid var(--text);
+    padding-top: 1rem;
+  }
+  .section-head h2 { margin: 0; font-size: 2rem; }
+  .section-head a { font-weight: 700; text-decoration: none; }
+  .section-head a::after { content: ' →'; }
   .chapters {
     list-style: none;
     padding: 0;
+    margin: 1.75rem 0 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
-    gap: 1.5rem;
+    gap: 1rem;
   }
-  .chapters a { display: flex; flex-direction: column; gap: 0.25rem; color: var(--text); text-decoration: none; }
-  .chapter-title { font-size: 1.1rem; font-weight: 600; }
+  .chapters a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    height: 100%;
+    padding: 1rem 0 0;
+    border-top: 6px solid var(--chapter);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .chapters a:hover .chapter-title { text-decoration: underline; text-decoration-color: var(--chapter); }
+  .number { font-weight: 700; font-size: 0.85rem; color: var(--muted); }
+  .chapter-title { font-family: var(--display); font-size: 1.15rem; font-weight: 700; line-height: 1.2; }
 </style>

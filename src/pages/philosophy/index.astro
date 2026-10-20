@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import ThoughtsNav from '../../components/ThoughtsNav.astro';
+import PhilosophyNav from '../../components/PhilosophyNav.astro';
 import Card from '../../components/Card.astro';
 import CardGrid from '../../components/CardGrid.astro';
 import { getThoughts } from '../../data/content';
@@ -8,15 +8,15 @@ import { getThoughts } from '../../data/content';
 const base = import.meta.env.BASE_URL;
 const thoughts = await getThoughts();
 ---
-<Base title="Thoughts" description="How Laura Ochoa sees the world.">
-  <ThoughtsNav />
+<Base title="My philosophy" description="How Laura Ochoa sees the world.">
+  <PhilosophyNav />
   <header class="page-intro">
     <h1>How I see the world</h1>
     <p class="muted">Reflections, half-formed and fully formed.</p>
   </header>
   <CardGrid count={thoughts.length} empty="The first thoughts are on their way.">
     {thoughts.map((t) => (
-      <Card href={`${base}thoughts/${t.id}/`} title={t.data.title} meta={t.data.written.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })} summary={t.data.summary} />
+      <Card href={`${base}philosophy/${t.id}/`} title={t.data.title} meta={t.data.written.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })} summary={t.data.summary} />
     ))}
   </CardGrid>
 </Base>

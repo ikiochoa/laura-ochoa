@@ -15,15 +15,41 @@ const { Content } = await render(project);
   <article class="prose">
     <p class="eyebrow">Project · {projectStages[project.data.stage]}</p>
     <h1>{project.data.title}</h1>
-    <p class="muted">
-      {project.data.summary}
-      {project.data.builtWith && ` Built with ${project.data.builtWith}.`}
-    </p>
+    <p class="lede">{project.data.summary}</p>
     {project.data.url && <p><a href={project.data.url}>Visit {project.data.title}</a></p>}
-    <Content />
+
+    <section>
+      <h2>About this project</h2>
+      <Content />
+    </section>
+
+    {project.data.stack.length > 0 && (
+      <section>
+        <h2>Tech stack</h2>
+        <dl class="stack">
+          {project.data.stack.map((tool) => (
+            <div>
+              <dt>{tool.name}</dt>
+              <dd>{tool.role}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    )}
   </article>
 </Base>
 
 <style>
-  article { padding: 2rem 0; }
+  article { padding: 2.5rem 0; }
+  h1 { margin: 0.5rem 0 0.75rem; }
+  .lede { font-size: 1.2rem; color: var(--muted); }
+  section { margin-top: 2.5rem; border-top: 2px solid var(--text); padding-top: 0.5rem; }
+  section h2 { font-size: 1.5rem; }
+  .stack { margin: 0; display: grid; gap: 0; }
+  .stack div { display: grid; grid-template-columns: minmax(8rem, 1fr) 3fr; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid var(--line); }
+  .stack dt { font-weight: 700; color: var(--accent); }
+  .stack dd { margin: 0; }
+  @media (max-width: 30rem) {
+    .stack div { grid-template-columns: 1fr; gap: 0.25rem; }
+  }
 </style>

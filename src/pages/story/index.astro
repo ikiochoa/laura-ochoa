@@ -2,6 +2,8 @@
 import Base from '../../layouts/Base.astro';
 import StoryNav from '../../components/StoryNav.astro';
 import { profile, chapters } from '../../data/profile';
+
+const chapterColors = ['pink', 'marigold', 'teal', 'purple', 'coral', 'text'];
 ---
 <Base title="My story" description="Laura Ochoa's story, told in chapters.">
   <StoryNav />
@@ -12,8 +14,8 @@ import { profile, chapters } from '../../data/profile';
     </p>
   </header>
 
-  {chapters.map((chapter) => (
-    <section class="chapter prose" id={`chapter-${chapter.number.toLowerCase()}`}>
+  {chapters.map((chapter, i) => (
+    <section class="chapter prose" id={`chapter-${chapter.number.toLowerCase()}`} style={`--chapter: var(--${chapterColors[i % chapterColors.length]})`}>
       <p class="eyebrow">Chapter {chapter.number.toLowerCase()} · {chapter.period}</p>
       <h2>{chapter.title}</h2>
       <p>{chapter.summary}</p>
@@ -34,7 +36,8 @@ import { profile, chapters } from '../../data/profile';
 </Base>
 
 <style>
-  .chapter { padding: 2rem 0; border-top: 1px solid var(--line); }
+  .chapter { padding: 1.5rem 0 2.5rem; border-top: 6px solid var(--chapter); }
+  .chapter .eyebrow { color: var(--text); }
   .chapter h2 { margin: 0.25rem 0 0.75rem; }
   .roles { padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; }
   .roles p { margin: 0.25rem 0 0; }

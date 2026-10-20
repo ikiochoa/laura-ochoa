@@ -1,7 +1,7 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import ThoughtsNav from '../../components/ThoughtsNav.astro';
+import PhilosophyNav from '../../components/PhilosophyNav.astro';
 import { getThoughts } from '../../data/content';
 
 export async function getStaticPaths() {
@@ -13,7 +13,7 @@ const { thought } = Astro.props;
 const { Content } = await render(thought);
 ---
 <Base title={thought.data.title} description={thought.data.summary}>
-  <ThoughtsNav />
+  <PhilosophyNav />
   <article class="prose">
     <h1>{thought.data.title}</h1>
     <p class="muted">{thought.data.summary}</p>
