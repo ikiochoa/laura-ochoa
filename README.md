@@ -2,7 +2,7 @@
 
 My personal space to tell people about who I am: my story, my work, and a garden of ideas, book notes and projects.
 
-Live at https://ikiochoa.github.io/laura-ochoa/ once GitHub Pages is switched on (Settings › Pages › Source: GitHub Actions).
+Hosted on [Netlify](https://www.netlify.com/), configured in `netlify.toml`.
 
 ## Where things live
 
@@ -34,4 +34,4 @@ npm run dev
 
 ## How changes ship
 
-Every change goes through a pull request. The **Build and deploy** workflow builds the site on each PR and deploys it to GitHub Pages when the PR is merged into `main`.
+Every change goes through a pull request. On each PR, the **Build** GitHub Action checks that the site builds, and Netlify posts a preview link to click through the change. Merging into `main` publishes the site.
