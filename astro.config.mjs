@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 
-// Served by GitHub Pages at https://ikiochoa.github.io/laura-ochoa/
+// Hosted on Netlify, which sets URL to the site's main address during its builds.
 export default defineConfig({
-  site: 'https://ikiochoa.github.io',
-  base: '/laura-ochoa/',
+  site: process.env.URL ?? 'https://laura-ochoa.netlify.app',
 });
