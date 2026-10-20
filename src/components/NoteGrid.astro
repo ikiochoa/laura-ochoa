@@ -1,0 +1,25 @@
+---
+import NoteCard from './NoteCard.astro';
+import type { Note } from '../data/notes';
+
+interface Props {
+  notes: Note[];
+  empty: string;
+}
+const { notes, empty } = Astro.props;
+---
+{notes.length === 0 ? (
+  <p class="muted">{empty}</p>
+) : (
+  <div class="grid">
+    {notes.map((note) => <NoteCard note={note} />)}
+  </div>
+)}
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: 1rem;
+  }
+</style>

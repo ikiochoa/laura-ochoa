@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import NoteGrid from '../../components/NoteGrid.astro';
+import { getNotes } from '../../data/notes';
+
+const projects = (await getNotes()).filter((note) => note.kind === 'Project');
+---
+<Base title="Projects" description="Things Laura has built.">
+  <header class="intro">
+    <h1>Projects</h1>
+    <p class="muted">Things I've built, and what I learned building them.</p>
+  </header>
+  <NoteGrid notes={projects} empty="Projects coming soon." />
+</Base>
+
+<style>
+  .intro { padding: 2rem 0 1.5rem; max-width: 44rem; }
+</style>

@@ -1,0 +1,25 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { stageLabel } from '../../data/notes';
+
+export async function getStaticPaths() {
+  const ideas = await getCollection('ideas', ({ data }) => !data.draft);
+  return ideas.map((idea) => ({ params: { id: idea.id }, props: { idea } }));
+}
+
+const { idea } = Astro.props;
+const { Content } = await render(idea);
+---
+<Base title={idea.data.title} description={idea.data.summary}>
+  <article>
+    <p class="eyebrow">Idea · {stageLabel[idea.data.stage]}</p>
+    <h1>{idea.data.title}</h1>
+    <p class="muted">{idea.data.summary}</p>
+    <Content />
+  </article>
+</Base>
+
+<style>
+  article { max-width: 44rem; padding: 2rem 0; }
+</style>

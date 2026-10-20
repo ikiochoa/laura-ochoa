@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import NoteGrid from '../components/NoteGrid.astro';
+import { getNotes } from '../data/notes';
+
+const notes = await getNotes();
+---
+<Base title="Garden" description="Ideas, book notes and projects that grow over time.">
+  <header class="intro">
+    <h1>The garden</h1>
+    <p class="muted">
+      Notes that grow over time. A <strong>seedling</strong> is a fresh thought, <strong>growing</strong> is
+      being worked on, and <strong>evergreen</strong> is settled thinking.
+    </p>
+  </header>
+  <NoteGrid notes={notes} empty="Nothing planted yet." />
+</Base>
+
+<style>
+  .intro { padding: 2rem 0 1.5rem; max-width: 44rem; }
+</style>

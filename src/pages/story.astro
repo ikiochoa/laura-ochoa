@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import { profile, chapters } from '../data/profile';
+---
+<Base title="My story" description="Laura Ochoa's career, told as a story.">
+  <header class="intro">
+    <h1>My story, so far</h1>
+    <p class="muted">
+      From {profile.places[0]} to {profile.home}, by way of {profile.places.slice(1, -1).join(' and ')}.
+      I speak {profile.languages.join(', ')}.
+    </p>
+  </header>
+
+  {chapters.map((chapter) => (
+    <section class="chapter" id={`chapter-${chapter.number.toLowerCase()}`}>
+      <p class="eyebrow">Chapter {chapter.number.toLowerCase()} · {chapter.period}</p>
+      <h2>{chapter.title}</h2>
+      <p>{chapter.summary}</p>
+      {chapter.roles && (
+        <ul class="roles">
+          {chapter.roles.map((role) => (
+            <li>
+              <strong>{role.title}</strong>, {role.org} <span class="muted">({role.period})</span>
+              {role.note && <p class="muted">{role.note}</p>}
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  ))}
+</Base>
+
+<style>
+  .intro { padding: 2rem 0 1rem; max-width: 44rem; }
+  .chapter { max-width: 44rem; padding: 2rem 0; border-top: 1px solid var(--line); }
+  .chapter h2 { margin: 0.25rem 0 0.75rem; }
+  .roles { padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .roles p { margin: 0.25rem 0 0; }
+</style>

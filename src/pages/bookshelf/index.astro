@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import NoteGrid from '../../components/NoteGrid.astro';
+import { getNotes } from '../../data/notes';
+
+const books = (await getNotes()).filter((note) => note.kind === 'Book note');
+---
+<Base title="Bookshelf" description="Notes on books Laura loves.">
+  <header class="intro">
+    <h1>Bookshelf</h1>
+    <p class="muted">Books that stayed with me, and what I took from them.</p>
+  </header>
+  <NoteGrid notes={books} empty="The first book notes are on their way." />
+</Base>
+
+<style>
+  .intro { padding: 2rem 0 1.5rem; max-width: 44rem; }
+</style>

@@ -1,0 +1,31 @@
+---
+import { stageLabel, type Note } from '../data/notes';
+
+interface Props {
+  note: Note;
+}
+const { note } = Astro.props;
+---
+<a class="note" href={note.href}>
+  <span class="meta">{stageLabel[note.stage]} · {note.kind}</span>
+  <span class="title">{note.title}</span>
+  <span class="summary">{note.summary}</span>
+</a>
+
+<style>
+  .note {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .note:hover { border-color: var(--accent); }
+  .meta { font-size: 0.85rem; color: var(--muted); }
+  .title { font-size: 1.2rem; font-weight: 600; }
+  .summary { color: var(--muted); }
+</style>
