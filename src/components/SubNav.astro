@@ -1,0 +1,28 @@
+---
+// Tabs for the pages inside one section, like the parts of My story.
+interface Props {
+  label: string;
+  items: { href: string; label: string }[];
+}
+const { label, items } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const current = Astro.url.pathname.replace(/\/?$/, '/');
+---
+<nav class="subnav" aria-label={label}>
+  {items.map((item) => (
+    <a href={base + item.href} aria-current={current === base + item.href ? 'page' : undefined}>{item.label}</a>
+  ))}
+</nav>
+
+<style>
+  .subnav { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1.5rem 0 0; }
+  .subnav a {
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  .subnav a[aria-current='page'] { border-color: var(--accent); color: var(--accent); }
+</style>

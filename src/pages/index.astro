@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro';
+import Card from '../components/Card.astro';
+import CardGrid from '../components/CardGrid.astro';
+import { profile, chapters } from '../data/profile';
+import { getProjects, getThoughts, projectStages } from '../data/content';
+
+const base = import.meta.env.BASE_URL;
+const projects = await getProjects();
+const thoughts = (await getThoughts()).slice(0, 3);
+---
+<Base>
+  <section class="hero">
+    <div>
+      <p class="eyebrow">{profile.greeting}</p>
+      <h1>I'm Laura. {profile.headline}</h1>
+      <p class="intro">{profile.intro}</p>
+      <p class="actions">
+        <a class="button" href={`${base}story/`}>Read my story</a>
+        <a class="button secondary" href={`${base}projects/`}>See my projects</a>
+      </p>
+    </div>
+    <figure class="photo">
+      <div class="photo-placeholder">Photo of Laura</div>
+    </figure>
+  </section>
+
+  <section>
+    <h2><a href={`${base}story/`}>My story, so far</a></h2>
+    <ol class="chapters">
+      {chapters.map((chapter) => (
+        <li>
+          <a href={`${base}story/#chapter-${chapter.number.toLowerCase()}`}>
+            <span class="eyebrow">Chapter {chapter.number.toLowerCase()}</span>
+            <span class="chapter-title">{chapter.title}</span>
+            <span class="muted">{chapter.period}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section>
+    <h2><a href={`${base}thoughts/`}>Thoughts</a></h2>
+    <p class="muted">How I see the world, the books that shaped it, and the people I learn from.</p>
+    <CardGrid count={thoughts.length} empty="The first thoughts are on their way.">
+      {thoughts.map((t) => <Card href={`${base}thoughts/${t.id}/`} title={t.data.title} summary={t.data.summary} />)}
+    </CardGrid>
+  </section>
+
+  <section>
+    <h2><a href={`${base}projects/`}>Projects</a></h2>
+    <p class="muted">Things I build, from first idea to done.</p>
+    <CardGrid count={projects.length}>
+      {projects.map((p) => (
+        <Card href={`${base}projects/${p.id}/`} title={p.data.title} meta={projectStages[p.data.stage]} summary={p.data.summary} />
+      ))}
+    </CardGrid>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: 3rem;
+    align-items: center;
+    padding: 3rem 0;
+  }
+  h1 { font-size: clamp(2rem, 5vw, 3.25rem); margin: 0.5rem 0 1rem; }
+  h2 a { color: var(--text); text-decoration: none; }
+  .intro { font-size: 1.2rem; color: var(--muted); max-width: 38rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+  .button {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .button.secondary { background: transparent; color: var(--text); border: 1.5px solid var(--text); }
+  .photo { margin: 0; }
+  .photo-placeholder {
+    aspect-ratio: 4 / 5;
+    max-width: 22rem;
+    margin-inline: auto;
+    border-radius: 1rem;
+    background: var(--surface);
+    border: 1px dashed var(--line);
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+  }
+  section { padding-top: 2.5rem; }
+  .chapters {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+    gap: 1.5rem;
+  }
+  .chapters a { display: flex; flex-direction: column; gap: 0.25rem; color: var(--text); text-decoration: none; }
+  .chapter-title { font-size: 1.1rem; font-weight: 600; }
+</style>

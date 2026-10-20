@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import Card from '../../components/Card.astro';
+import CardGrid from '../../components/CardGrid.astro';
+import { getProjects, projectStages } from '../../data/content';
+
+const base = import.meta.env.BASE_URL;
+const projects = await getProjects();
+const stages = Object.entries(projectStages) as [keyof typeof projectStages, string][];
+---
+<Base title="Projects" description="Things Laura Ochoa builds, from first idea to done.">
+  <header class="page-intro">
+    <h1>Projects</h1>
+    <p class="muted">Things I build, from a first idea to done.</p>
+  </header>
+  {stages.map(([stage, label]) => {
+    const inStage = projects.filter((p) => p.data.stage === stage);
+    return inStage.length > 0 && (
+      <section class="stage">
+        <h2>{label}</h2>
+        <CardGrid count={inStage.length}>
+          {inStage.map((p) => <Card href={`${base}projects/${p.id}/`} title={p.data.title} summary={p.data.summary} />)}
+        </CardGrid>
+      </section>
+    );
+  })}
+</Base>
+
+<style>
+  .stage { padding-bottom: 1.5rem; }
+</style>

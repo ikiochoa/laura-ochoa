@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import StoryNav from '../../components/StoryNav.astro';
+import { profile, hobbies } from '../../data/profile';
+---
+<Base title="Beyond work" description="Laura Ochoa's hobbies, languages and the places she calls home.">
+  <StoryNav />
+  <header class="page-intro">
+    <h1>Beyond work</h1>
+    <p class="muted">The things I do for the joy of it.</p>
+  </header>
+
+  <section class="hobbies">
+    {hobbies.map((hobby) => (
+      <div>
+        <h2>{hobby.name}</h2>
+        <p class="muted">{hobby.note}</p>
+      </div>
+    ))}
+  </section>
+
+  <section class="prose facts">
+    <h2>Places and languages</h2>
+    <p>I've lived in {profile.places.slice(0, -1).join(', ')} and {profile.places.at(-1)}, and I love {profile.loves.join(' and ')}.</p>
+    <p>I speak {profile.languages.slice(0, -1).join(', ')} and {profile.languages.at(-1)}.</p>
+  </section>
+</Base>
+
+<style>
+  .hobbies {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: 1.5rem;
+  }
+  .hobbies h2 { margin-bottom: 0.25rem; font-size: 1.2rem; }
+  .facts { padding-top: 2rem; border-top: 1px solid var(--line); margin-top: 1.5rem; }
+</style>
