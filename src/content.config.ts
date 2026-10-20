@@ -34,7 +34,8 @@ const projects = defineCollection({
     summary: z.string(),
     stage: z.enum(['idea', 'in-progress', 'done']),
     url: z.string().url().optional(),
-    builtWith: z.string().optional(),
+    // The tech stack, each tool with a line on what it does in this project.
+    stack: z.array(z.object({ name: z.string(), role: z.string() })).default([]),
     draft: z.boolean().default(false),
   }),
 });

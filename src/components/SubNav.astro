@@ -15,14 +15,15 @@ const current = Astro.url.pathname.replace(/\/?$/, '/');
 </nav>
 
 <style>
-  .subnav { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1.5rem 0 0; }
+  .subnav { display: flex; flex-wrap: wrap; gap: 0; padding-top: 1.5rem; border-bottom: 1px solid var(--line); }
   .subnav a {
-    padding: 0.4rem 0.9rem;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    color: var(--text);
+    padding: 0.6rem 1rem;
+    color: var(--muted);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
   }
-  .subnav a[aria-current='page'] { border-color: var(--accent); color: var(--accent); }
+  .subnav a:hover { color: var(--text); }
+  .subnav a[aria-current='page'] { color: var(--text); border-bottom-color: var(--accent); }
 </style>

@@ -7,13 +7,15 @@ interface Props {
 }
 const { title, description = profile.headline } = Astro.props;
 const base = import.meta.env.BASE_URL;
+// Each section has its own color from the Mercado palette.
 const nav = [
-  { href: 'story/', label: 'My story' },
-  { href: 'thoughts/', label: 'Thoughts' },
-  { href: 'projects/', label: 'Projects' },
-  { href: 'hello/', label: 'Say hello' },
+  { href: 'story/', label: 'My story', accent: 'pink' },
+  { href: 'philosophy/', label: 'My philosophy', accent: 'teal' },
+  { href: 'projects/', label: 'Projects', accent: 'purple' },
+  { href: 'hello/', label: 'Say hello', accent: 'coral' },
 ];
 const current = Astro.url.pathname;
+const section = nav.find((item) => current.startsWith(base + item.href));
 ---
 <!doctype html>
 <html lang="en">
@@ -22,13 +24,26 @@ const current = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title ? `${title} · ${profile.name}` : profile.name}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
+  <body data-accent={section?.accent ?? 'pink'}>
+    <div class="stripe" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
     <header class="site-header">
       <a class="wordmark" href={base}>{profile.name}</a>
       <nav aria-label="Main">
         {nav.map((item) => (
-          <a href={base + item.href} aria-current={current.startsWith(base + item.href) ? 'page' : undefined}>
+          <a
+            href={base + item.href}
+            data-accent={item.accent}
+            aria-current={section === item ? 'page' : undefined}
+          >
             {item.label}
           </a>
         ))}
@@ -38,8 +53,9 @@ const current = Astro.url.pathname;
       <slot />
     </main>
     <footer class="site-footer">
-      <span>Made in {profile.home}</span>
+      <span>Made in {profile.home}, with a Mexican heart.</span>
       <span class="links">
+        <a href={`${base}projects/this-website/`}>About this website</a>
         <a href={profile.links.linkedin}>LinkedIn</a>
         <a href={profile.links.github}>GitHub</a>
       </span>
@@ -48,62 +64,99 @@ const current = Astro.url.pathname;
 </html>
 
 <style is:global>
-  /* Structural styles only: the visual design comes in its own PR. */
+  /* Mercado: Mexican market colors, used sparingly on clean straight lines. */
   :root {
-    --bg: #ffffff;
-    --text: #1a1a2e;
-    --muted: #55566b;
-    --line: #e2e2ea;
-    --accent: #e4572e;
-    --surface: #f5f5fa;
+    --night: #1f1147;
+    --pink: #d81b60;
+    --marigold: #ffb300;
+    --teal: #00796b;
+    --purple: #5e35b1;
+    --coral: #d84315;
+    --bg: #fffdf9;
+    --text: var(--night);
+    --muted: #574d78;
+    --line: #e6e1ef;
+    --surface: #ffffff;
+    --on-pink: #ffffff;
     --max: 72rem;
+    --display: 'Fraunces', Georgia, serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #12121c;
-      --text: #f0f0f6;
-      --muted: #a8a9bd;
-      --line: #2c2c3c;
-      --accent: #ff7a52;
-      --surface: #1c1c2a;
+      --pink: #ff6fa3;
+      --teal: #4fd1c0;
+      --purple: #b39dff;
+      --coral: #ff8a65;
+      --bg: #150c33;
+      --text: #f6f2ff;
+      --muted: #b8afd6;
+      --line: #322761;
+      --surface: #1d1342;
+      --on-pink: #150c33;
     }
   }
+  [data-accent='pink'] { --accent: var(--pink); }
+  [data-accent='teal'] { --accent: var(--teal); }
+  [data-accent='purple'] { --accent: var(--purple); }
+  [data-accent='coral'] { --accent: var(--coral); }
+
   * { box-sizing: border-box; }
   body {
     margin: 0;
     background: var(--bg);
     color: var(--text);
-    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     line-height: 1.6;
   }
-  a { color: var(--accent); }
-  main { max-width: var(--max); margin: 0 auto; padding: 0 1rem 4rem; }
-  h1, h2, h3 { line-height: 1.15; }
+  a { color: var(--accent); text-underline-offset: 0.2em; }
+  main { max-width: var(--max); margin: 0 auto; padding: 0 1.5rem 5rem; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; }
+  h1 { font-size: clamp(2.25rem, 5vw, 3.5rem); }
   .muted { color: var(--muted); }
-  .eyebrow { color: var(--accent); font-weight: 600; font-size: 0.9rem; margin: 0; }
-  .page-intro { padding: 2rem 0 1.5rem; max-width: 44rem; }
+  .eyebrow {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .page-intro { padding: 2.5rem 0 2rem; max-width: 44rem; }
+  .page-intro h1 { margin: 0 0 0.75rem; }
   .prose { max-width: 44rem; }
 </style>
 
 <style>
+  .stripe { display: grid; grid-template-columns: repeat(5, 1fr); height: 6px; }
+  .stripe span:nth-child(1) { background: var(--pink); }
+  .stripe span:nth-child(2) { background: var(--marigold); }
+  .stripe span:nth-child(3) { background: var(--teal); }
+  .stripe span:nth-child(4) { background: var(--purple); }
+  .stripe span:nth-child(5) { background: var(--coral); }
   .site-header {
     max-width: var(--max);
     margin: 0 auto;
-    padding: 1.5rem 1rem;
+    padding: 1.5rem;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem 2rem;
     justify-content: space-between;
     align-items: center;
   }
-  .wordmark { font-weight: 700; color: var(--text); text-decoration: none; font-size: 1.15rem; }
-  nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
-  nav a { color: var(--text); text-decoration: none; }
-  nav a[aria-current='page'] { color: var(--accent); text-decoration: underline; text-underline-offset: 0.3em; }
+  .wordmark { font-family: var(--display); font-weight: 700; color: var(--text); text-decoration: none; font-size: 1.35rem; }
+  nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.75rem; }
+  nav a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.25rem 0;
+    border-bottom: 3px solid transparent;
+  }
+  nav a:hover, nav a[aria-current='page'] { border-bottom-color: var(--accent); }
   .site-footer {
     max-width: var(--max);
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 2rem 1.5rem 2.5rem;
     border-top: 1px solid var(--line);
     display: flex;
     flex-wrap: wrap;
@@ -112,5 +165,6 @@ const current = Astro.url.pathname;
     color: var(--muted);
     font-size: 0.9rem;
   }
-  .links { display: flex; gap: 1rem; }
+  .links { display: flex; gap: 1.25rem; }
+  .links a { color: var(--muted); }
 </style>
