@@ -3,6 +3,11 @@ title: Italiano in giro
 summary: A mobile-friendly app to learn Italian together, from A1 to C2, with a weekly race between friends.
 stage: done
 url: https://italiano-in-giro.netlify.app/
+screenshots:
+  - src: ../../assets/projects/italiano-in-giro/home.png
+    alt: The home screen, with today's words, the verb drill and your level.
+  - src: ../../assets/projects/italiano-in-giro/practice.png
+    alt: A practice question. Pick what the word means, or listen to it with an Italian voice.
 stack:
   - name: HTML, CSS and JavaScript
     role: The whole app is plain web files, no framework, so it loads fast on a phone.
@@ -18,7 +23,7 @@ stack:
     role: My building partner. We designed and built it together.
 ---
 
-I'm learning Italian, and after Mot-a-mot I wanted an app that makes it social. Italiano in giro follows the levels of the CILS exam, from A1 to C2, with vocabulary and verbs for each one.
+We love Italy, and Liguria above all. We go often and have many friends there, so I'm very motivated to keep learning Italian. I wanted an app that makes practising part of every day and that I can share with friends. Italiano in giro follows the levels of the CILS exam, from A1 to C2, with vocabulary and verbs for each one.
 
 - **Practice a little every day.** Words come back with spaced repetition, from multiple choice to listening to typing, with an Italian voice. Verbs have their own drill, and each tense appears at the level where the exam introduces it.
 - **Your own topics.** Type a topic, like renovating a flat or going to the doctor, and the app suggests a ready-made list or asks Claude to write one.

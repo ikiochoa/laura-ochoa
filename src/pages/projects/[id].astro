@@ -1,5 +1,6 @@
 ---
 import { render } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import { getProjects, projectStages } from '../../data/content';
 
@@ -16,12 +17,26 @@ const { Content } = await render(project);
     <p class="eyebrow">Project · {projectStages[project.data.stage]}</p>
     <h1>{project.data.title}</h1>
     <p class="lede">{project.data.summary}</p>
-    {project.data.url && <p><a href={project.data.url}>Visit {project.data.title}</a></p>}
+    {project.data.url && <p><a href={project.data.url} target="_blank" rel="noopener">Visit {project.data.title} ↗</a></p>}
 
     <section>
       <h2>About this project</h2>
       <Content />
     </section>
+
+    {project.data.screenshots.length > 0 && (
+      <section>
+        <h2>How it looks</h2>
+        <div class="screens">
+          {project.data.screenshots.map((shot) => (
+            <figure>
+              <Image src={shot.src} alt={shot.alt} widths={[320, 640]} sizes="(min-width: 40rem) 20rem, 80vw" />
+              <figcaption>{shot.alt}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
 
     {project.data.stack.length > 0 && (
       <section>
@@ -45,6 +60,10 @@ const { Content } = await render(project);
   .lede { font-size: 1.2rem; color: var(--muted); }
   section { margin-top: 2.5rem; border-top: 2px solid var(--text); padding-top: 0.5rem; }
   section h2 { font-size: 1.5rem; }
+  .screens { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1.5rem; margin-top: 1rem; }
+  .screens figure { margin: 0; }
+  .screens img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-top: 4px solid var(--accent); }
+  .screens figcaption { color: var(--muted); font-size: 0.9rem; margin-top: 0.5rem; }
   .stack { margin: 0; display: grid; gap: 0; }
   .stack div { display: grid; grid-template-columns: minmax(8rem, 1fr) 3fr; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid var(--line); }
   .stack dt { font-weight: 700; color: var(--accent); }

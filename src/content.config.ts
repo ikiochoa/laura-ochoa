@@ -29,13 +29,15 @@ const books = defineCollection({
 // Things I build, from a first idea to done.
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     summary: z.string(),
     stage: z.enum(['idea', 'in-progress', 'done']),
     url: z.string().url().optional(),
     // The tech stack, each tool with a line on what it does in this project.
     stack: z.array(z.object({ name: z.string(), role: z.string() })).default([]),
+    // Screenshots of the project, paths relative to the Markdown file.
+    screenshots: z.array(z.object({ src: image(), alt: z.string() })).default([]),
     draft: z.boolean().default(false),
   }),
 });
