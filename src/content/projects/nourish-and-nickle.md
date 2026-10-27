@@ -2,6 +2,7 @@
 title: Nourish and Nickle
 summary: Compares groceries across Swiss supermarkets by health and by price, so our shopping list goes where it makes sense.
 stage: in-progress
+url: https://nourish-and-nickle.streamlit.app/
 online: true
 screenshots:
   - src: ../../assets/projects/nourish-and-nickle/compare.jpg
