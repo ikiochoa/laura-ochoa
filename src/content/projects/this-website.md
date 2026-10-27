@@ -2,6 +2,10 @@
 title: This website
 summary: My personal corner of the internet, built step by step with Claude.
 stage: in-progress
+online: true
+screenshots:
+  - src: ../../assets/projects/this-website/home.jpg
+    alt: The home page, in the Mercado colors.
 stack:
   - name: Astro
     role: Turns simple text files into fast web pages, so adding a book or a thought means writing one file.

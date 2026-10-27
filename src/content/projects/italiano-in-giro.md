@@ -8,6 +8,7 @@ screenshots:
     alt: The home screen, with today's words, the verb drill and your level.
   - src: ../../assets/projects/italiano-in-giro/practice.png
     alt: A practice question. Pick what the word means, or listen to it with an Italian voice.
+online: true
 stack:
   - name: HTML, CSS and JavaScript
     role: The whole app is plain web files, no framework, so it loads fast on a phone.

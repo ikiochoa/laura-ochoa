@@ -6,24 +6,37 @@ import { getProjects, projectStages } from '../../data/content';
 
 const base = import.meta.env.BASE_URL;
 const projects = await getProjects();
-const stages = Object.entries(projectStages) as [keyof typeof projectStages, string][];
+// Ideas get their own section; everything already being built sits together, in progress first.
+const ideas = projects.filter((p) => p.data.stage === 'idea');
+const built = projects
+  .filter((p) => p.data.stage !== 'idea')
+  .sort((a, b) => (a.data.stage === b.data.stage ? 0 : a.data.stage === 'in-progress' ? -1 : 1));
+const sections = [
+  { label: 'Ideas', items: ideas },
+  { label: 'Built', items: built },
+];
 ---
 <Base title="Projects" description="Things Laura Ochoa builds, from first idea to done.">
   <header class="page-intro">
     <h1>Projects</h1>
     <p class="muted">Things I build, from a first idea to done.</p>
   </header>
-  {stages.map(([stage, label]) => {
-    const inStage = projects.filter((p) => p.data.stage === stage);
-    return inStage.length > 0 && (
-      <section class="stage">
-        <h2>{label}</h2>
-        <CardGrid count={inStage.length}>
-          {inStage.map((p) => <Card href={`${base}projects/${p.id}/`} title={p.data.title} summary={p.data.summary} />)}
-        </CardGrid>
-      </section>
-    );
-  })}
+  {sections.map(({ label, items }) => items.length > 0 && (
+    <section class="stage">
+      <h2>{label}</h2>
+      <CardGrid count={items.length}>
+        {items.map((p) => (
+          <Card
+            href={`${base}projects/${p.id}/`}
+            title={p.data.title}
+            meta={p.data.stage === 'idea' ? undefined : projectStages[p.data.stage]}
+            summary={p.data.summary}
+            online={p.data.online}
+          />
+        ))}
+      </CardGrid>
+    </section>
+  ))}
 </Base>
 
 <style>

@@ -66,7 +66,7 @@ const chapterColors = ['pink', 'marigold', 'teal', 'purple', 'coral', 'text'];
     <p class="muted">Things I build, from first idea to done.</p>
     <CardGrid count={projects.length}>
       {projects.map((p) => (
-        <Card href={`${base}projects/${p.id}/`} title={p.data.title} meta={projectStages[p.data.stage]} summary={p.data.summary} />
+        <Card href={`${base}projects/${p.id}/`} title={p.data.title} meta={projectStages[p.data.stage]} summary={p.data.summary} online={p.data.online} />
       ))}
     </CardGrid>
   </section>

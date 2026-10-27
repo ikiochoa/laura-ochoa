@@ -34,6 +34,8 @@ const projects = defineCollection({
     summary: z.string(),
     stage: z.enum(['idea', 'in-progress', 'done']),
     url: z.string().url().optional(),
+    // Whether the project is live on the internet, shown as a green dot.
+    online: z.boolean().default(false),
     // The tech stack, each tool with a line on what it does in this project.
     stack: z.array(z.object({ name: z.string(), role: z.string() })).default([]),
     // Screenshots of the project, paths relative to the Markdown file.
