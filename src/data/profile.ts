@@ -155,7 +155,7 @@ export const dreamNext = 'Being written.';
 export const hobbies = [
   { name: 'Reading', note: 'Books feed my thinking. Some of them live on my bookshelf.' },
   { name: 'Languages', note: 'Learning Italian right now.' },
-  { name: 'Building things', note: 'Small apps that scratch my own itch, like Mot-a-mot.' },
+  { name: 'Building things', note: 'Small apps that scratch my own itch, like Italiano in giro.' },
   { name: 'Italy', note: 'A country I love.' },
 ];
 
