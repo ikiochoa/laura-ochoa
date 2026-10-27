@@ -2,6 +2,10 @@
 title: Nourish and Nickle
 summary: Compares groceries across Swiss supermarkets by health and by price, so our shopping list goes where it makes sense.
 stage: in-progress
+online: true
+screenshots:
+  - src: ../../assets/projects/nourish-and-nickle/compare.jpg
+    alt: Comparing soy milk across stores, with the healthiest and the cheapest marked.
 stack:
   - name: Python
     role: Collects prices from Migros, Aldi, Denner, Lidl and Otto's, and turns every price into CHF per 100 g, 100 ml or roll.

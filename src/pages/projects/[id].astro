@@ -14,7 +14,10 @@ const { Content } = await render(project);
 ---
 <Base title={project.data.title} description={project.data.summary}>
   <article class="prose">
-    <p class="eyebrow">Project · {projectStages[project.data.stage]}</p>
+    <p class="eyebrow">
+      Project · {projectStages[project.data.stage]}
+      {project.data.online && <span class="online"><span class="dot" aria-hidden="true"></span>Online</span>}
+    </p>
     <h1>{project.data.title}</h1>
     <p class="lede">{project.data.summary}</p>
     {project.data.url && <p><a href={project.data.url} target="_blank" rel="noopener">Visit {project.data.title} ↗</a></p>}
@@ -29,8 +32,8 @@ const { Content } = await render(project);
         <h2>How it looks</h2>
         <div class="screens">
           {project.data.screenshots.map((shot) => (
-            <figure>
-              <Image src={shot.src} alt={shot.alt} widths={[320, 640]} sizes="(min-width: 40rem) 20rem, 80vw" />
+            <figure class:list={[{ wide: shot.src.width > shot.src.height }]}>
+              <Image src={shot.src} alt={shot.alt} widths={[320, 640, 1400]} sizes="(min-width: 48rem) 44rem, 90vw" />
               <figcaption>{shot.alt}</figcaption>
             </figure>
           ))}
@@ -56,12 +59,15 @@ const { Content } = await render(project);
 
 <style>
   article { padding: 2.5rem 0; }
+  .online { display: inline-flex; align-items: center; gap: 0.35rem; margin-left: 0.75rem; color: var(--muted); }
+  .dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: #2e9e5b; box-shadow: 0 0 0 3px rgba(46, 158, 91, 0.2); }
   h1 { margin: 0.5rem 0 0.75rem; }
   .lede { font-size: 1.2rem; color: var(--muted); }
   section { margin-top: 2.5rem; border-top: 2px solid var(--text); padding-top: 0.5rem; }
   section h2 { font-size: 1.5rem; }
   .screens { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1.5rem; margin-top: 1rem; }
   .screens figure { margin: 0; }
+  .screens figure.wide { grid-column: 1 / -1; }
   .screens img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-top: 4px solid var(--accent); }
   .screens figcaption { color: var(--muted); font-size: 0.9rem; margin-top: 0.5rem; }
   .stack { margin: 0; display: grid; gap: 0; }

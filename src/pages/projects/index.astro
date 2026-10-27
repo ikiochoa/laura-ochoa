@@ -19,7 +19,7 @@ const stages = Object.entries(projectStages) as [keyof typeof projectStages, str
       <section class="stage">
         <h2>{label}</h2>
         <CardGrid count={inStage.length}>
-          {inStage.map((p) => <Card href={`${base}projects/${p.id}/`} title={p.data.title} summary={p.data.summary} />)}
+          {inStage.map((p) => <Card href={`${base}projects/${p.id}/`} title={p.data.title} summary={p.data.summary} online={p.data.online} />)}
         </CardGrid>
       </section>
     );

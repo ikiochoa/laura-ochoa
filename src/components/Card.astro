@@ -4,12 +4,13 @@ interface Props {
   title: string;
   meta?: string;
   summary?: string;
+  online?: boolean;
 }
-const { href, title, meta, summary } = Astro.props;
+const { href, title, meta, summary, online = false } = Astro.props;
 ---
 <a class="card" href={href}>
   {meta && <span class="meta">{meta}</span>}
-  <span class="title">{title}</span>
+  <span class="title">{title}{online && <span class="online" title="Online"><span class="dot" aria-hidden="true"></span>Online</span>}</span>
   {summary && <span class="summary">{summary}</span>}
 </a>
 
@@ -29,5 +30,7 @@ const { href, title, meta, summary } = Astro.props;
   .card:hover { transform: translateY(-2px); border-color: var(--accent); }
   .meta { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
   .title { font-family: var(--display); font-size: 1.3rem; font-weight: 700; line-height: 1.2; }
+  .online { display: inline-flex; align-items: center; gap: 0.35rem; margin-left: 0.6rem; vertical-align: middle; font-family: 'DM Sans', system-ui, sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+  .dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: #2e9e5b; box-shadow: 0 0 0 3px rgba(46, 158, 91, 0.2); }
   .summary { color: var(--muted); }
 </style>
