@@ -56,14 +56,22 @@ const statTiles = [
 
   <section class="route">
     <h2>The route at a glance</h2>
-    <p class="muted">Each block is one stay, as wide as the days we spent there.</p>
+    <p class="muted">Each block is one stay, as wide as the days we spent there. Hover or tap a block to see where and when.</p>
     <div class="strip" role="list">
       {stays.map((stay) => {
+        const start = ((Date.parse(stay.from) - Date.parse(first)) / 86400000 / totalDays) * 100;
         const pct = (stay.days / totalDays) * 100;
         const label = `${countries[stay.country].name}: ${range(stay.from, stay.to)} (${plural(stay.days, 'day')})`;
         return (
-          <div class="segment" role="listitem" style={`flex-grow: ${stay.days}; --part: var(--${stay.part.color})`} title={label} aria-label={label}>
+          <div class="segment" role="listitem" tabindex="0" style={`flex-grow: ${stay.days}; --part: var(--${stay.part.color})`} aria-label={label}>
             {pct >= 3 && <Flag code={stay.country} size="1.1rem" />}
+            <span class:list={['tip', { 'tip-end': start > 65 }]} aria-hidden="true">
+              <Flag code={stay.country} size="1.4rem" />
+              <span>
+                <strong>{countries[stay.country].name.replace(/^the /, '')}</strong>
+                <span class="tip-when">{range(stay.from, stay.to)} · {plural(stay.days, 'day')}</span>
+              </span>
+            </span>
           </div>
         );
       })}
@@ -80,10 +88,10 @@ const statTiles = [
 
   <section class="per-country">
     <h2>Days per country</h2>
-    <p class="muted">In the order we first arrived.</p>
+    <p class="muted">From the most to the fewest.</p>
     <ul class="bars">
       {daysPerCountry.map((c) => (
-        <li title={`${countries[c.country].name}: ${plural(c.days, 'day')}`}>
+        <li>
           <span class="who"><Flag code={c.country} size="1.25rem" /> {countries[c.country].name.replace(/^the /, '')}</span>
           <span class="track"><span class="bar" style={`width: ${(c.days / maxDays) * 100}%`}></span></span>
           <span class="days">{c.days}</span>
@@ -178,7 +186,29 @@ const statTiles = [
     align-items: center;
     justify-content: center;
   }
-  .segment:hover { outline: 2px solid var(--text); outline-offset: 1px; }
+  .segment { position: relative; cursor: default; }
+  .segment:hover, .segment:focus-visible { outline: 2px solid var(--text); outline-offset: 1px; z-index: 1; }
+  .tip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 0.6rem);
+    left: 0;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--line);
+    box-shadow: 0 4px 14px rgb(31 17 71 / 0.15);
+    white-space: nowrap;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    pointer-events: none;
+  }
+  .tip-end { left: auto; right: 0; }
+  .tip strong, .tip-when { display: block; }
+  .tip-when { color: var(--muted); }
+  .segment:hover .tip, .segment:focus .tip { display: flex; }
   .ticks { position: relative; height: 1.5rem; border-top: 1px solid var(--line); margin-top: 0.4rem; }
   .ticks span { position: absolute; top: 0.2rem; font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
   .ticks span:nth-child(even) { display: none; }

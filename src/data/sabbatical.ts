@@ -57,7 +57,7 @@ export const parts: Part[] = [
     ride: 'An F250 truck camper and three bikes',
     color: 'marigold',
     story:
-      'We travelled up and down the Colombian mountains in a truck camper. This time we only brought three bikes.',
+      'We travelled up and down the Colombian mountains in a truck camper, and this time we only brought three bikes. We explored different mountain ranges and valleys, went to the coffee region, saw wonderful nature and soaked up the vibe of big cities like Bogotá and Medellín. We could see and feel the Colombian passion for cycling, and we met extremely cool people. In between, we made a little pit stop in the USA for Christmas.',
     stops: [
       { country: 'CO', from: '2025-09-21' },
       { country: 'US', from: '2025-12-19' },
@@ -70,7 +70,7 @@ export const parts: Part[] = [
     ride: 'Mountain bike trails across five US states',
     color: 'teal',
     story:
-      'After figuring out how to ship a camper to another country, we spent almost three months in Texas, New Mexico, Utah, California and Nevada, looking for the best mountain bike trails.',
+      'After figuring out how to ship a camper to another country, we went to Mexico while our car was being shipped to the USA. Then we spent almost three months in Texas, New Mexico, Utah, California and Nevada, looking for the best mountain bike trails.',
     stops: [
       { country: 'MX', from: '2026-02-27' },
       { country: 'US', from: '2026-03-18' },
@@ -110,13 +110,13 @@ export const stays: Stay[] = flat.map((stop, i) => {
 
 export const totalDays = daysBetween(flat[0].from, end);
 
-// Days per country, in the order we first arrived.
+// Days per country, from the most to the fewest.
 export const daysPerCountry = stays.reduce<{ country: CountryCode; days: number }[]>((acc, stay) => {
   const found = acc.find((c) => c.country === stay.country);
   if (found) found.days += stay.days;
   else acc.push({ country: stay.country, days: stay.days });
   return acc;
-}, []);
+}, []).sort((a, b) => b.days - a.days);
 
 const unique = <T,>(xs: T[]) => [...new Set(xs)];
 export const stats = {
