@@ -1,0 +1,263 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import StoryNav from '../../components/StoryNav.astro';
+import Flag from '../../components/Flag.astro';
+import { countries, parts, stays, totalDays, daysPerCountry, stats, story } from '../../data/sabbatical';
+
+const fmt = (iso: string, opts: Intl.DateTimeFormatOptions) =>
+  new Date(iso).toLocaleDateString('en-GB', { timeZone: 'UTC', ...opts });
+const range = (from: string, to: string) => {
+  if (from === to) return fmt(from, { day: 'numeric', month: 'short', year: 'numeric' });
+  const sameYear = from.slice(0, 4) === to.slice(0, 4);
+  const sameMonth = sameYear && from.slice(5, 7) === to.slice(5, 7);
+  const start = sameMonth ? fmt(from, { day: 'numeric' }) : fmt(from, { day: 'numeric', month: 'short', ...(sameYear ? {} : { year: 'numeric' }) });
+  return `${start} – ${fmt(to, { day: 'numeric', month: 'short', year: 'numeric' })}`;
+};
+const monthYear = (iso: string) => fmt(iso, { month: 'short', year: 'numeric' });
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`;
+
+const first = stays[0].from;
+const last = stays.at(-1)!.to;
+const maxDays = Math.max(...daysPerCountry.map((c) => c.days));
+
+// Month marks for the route strip: the first of every third month.
+const ticks: { label: string; at: number }[] = [];
+for (let d = new Date(first); d <= new Date(last); d.setUTCMonth(d.getUTCMonth() + 3)) {
+  const iso = d.toISOString().slice(0, 10);
+  ticks.push({ label: monthYear(iso), at: ((Date.parse(iso) - Date.parse(first)) / 86400000 / totalDays) * 100 });
+}
+
+const statTiles = [
+  { value: stats.days, label: 'days on the road' },
+  { value: stats.countries, label: 'countries' },
+  { value: stats.continents, label: 'continents' },
+  { value: stats.languages, label: 'languages around us' },
+  { value: stats.borders, label: 'times we changed country' },
+  { value: stats.usStates, label: 'US states of mountain biking' },
+];
+---
+<Base title="Our family sabbatical" description="A year and a half on the road with our son: Europe, Colombia, Mexico and the USA.">
+  <StoryNav />
+  <header class="page-intro">
+    <p class="eyebrow">Chapter five · {monthYear(first)} – {monthYear(last)}</p>
+    <h1>Our family sabbatical</h1>
+    <p class="lede">{story.about[0]}</p>
+  </header>
+
+  <section class="stats" aria-label="The sabbatical in numbers">
+    {statTiles.map((s) => (
+      <div class="stat">
+        <span class="value">{s.value}</span>
+        <span class="label">{s.label}</span>
+      </div>
+    ))}
+  </section>
+
+  <section class="route">
+    <h2>The route at a glance</h2>
+    <p class="muted">Each block is one stay, as wide as the days we spent there. Hover or tap a block to see where and when.</p>
+    <div class="strip" role="list">
+      {stays.map((stay) => {
+        const start = ((Date.parse(stay.from) - Date.parse(first)) / 86400000 / totalDays) * 100;
+        const pct = (stay.days / totalDays) * 100;
+        const label = `${countries[stay.country].name}: ${range(stay.from, stay.to)} (${plural(stay.days, 'day')})`;
+        return (
+          <div class="segment" role="listitem" tabindex="0" style={`flex-grow: ${stay.days}; --part: var(--${stay.part.color})`} aria-label={label}>
+            {pct >= 3 && <Flag code={stay.country} size="1.1rem" />}
+            <span class:list={['tip', { 'tip-end': start > 65 }]} aria-hidden="true">
+              <Flag code={stay.country} size="1.4rem" />
+              <span>
+                <strong>{countries[stay.country].name.replace(/^the /, '')}</strong>
+                <span class="tip-when">{range(stay.from, stay.to)} · {plural(stay.days, 'day')}</span>
+              </span>
+            </span>
+          </div>
+        );
+      })}
+    </div>
+    <div class="ticks" aria-hidden="true">
+      {ticks.map((t) => <span style={`left: ${t.at}%`}>{t.label}</span>)}
+    </div>
+    <ul class="legend">
+      {parts.map((part) => (
+        <li><span class="swatch" style={`background: var(--${part.color})`}></span>Part {part.number.toLowerCase()}: {part.title}</li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="per-country">
+    <h2>Days per country</h2>
+    <p class="muted">From the most to the fewest.</p>
+    <ul class="bars">
+      {daysPerCountry.map((c) => (
+        <li>
+          <span class="who"><Flag code={c.country} size="1.25rem" /> {countries[c.country].name.replace(/^the /, '')}</span>
+          <span class="track"><span class="bar" style={`width: ${(c.days / maxDays) * 100}%`}></span></span>
+          <span class="days">{c.days}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="prose about">
+    <h2>What was it about?</h2>
+    {story.about.slice(1).map((p) => <p>{p}</p>)}
+  </section>
+
+  {parts.map((part) => {
+    const partStays = stays.filter((s) => s.part === part);
+    const days = partStays.reduce((n, s) => n + s.days, 0);
+    return (
+      <section class="part" style={`--part: var(--${part.color})`}>
+        <div class="part-text">
+          <p class="eyebrow">Part {part.number.toLowerCase()} · {range(partStays[0].from, partStays.at(-1)!.to)} · {plural(days, 'day')}</p>
+          <h2>{part.title}</h2>
+          <p class="ride">{part.ride}</p>
+          <p>{part.story}</p>
+        </div>
+        <ol class="stops">
+          {partStays.map((stay) => (
+            <li>
+              <Flag code={stay.country} title={countries[stay.country].name} />
+              <span class="where">{countries[stay.country].name.replace(/^the /, '')}</span>
+              <span class="when muted">{range(stay.from, stay.to)}</span>
+              <span class="len">{plural(stay.days, 'day')}</span>
+            </li>
+          ))}
+        </ol>
+        {part.photos && part.photos.length > 0 && (
+          <div class="photos">
+            {part.photos.map((photo) => <Image src={photo.src} alt={photo.alt} widths={[400, 800]} sizes="(min-width: 48rem) 33vw, 100vw" />)}
+          </div>
+        )}
+      </section>
+    );
+  })}
+
+  <section class="learned">
+    <h2>What we take home</h2>
+    <div class="lists">
+      <div>
+        <h3>We learned to value again</h3>
+        <ul>{story.grateful.map((item) => <li>{item}</li>)}</ul>
+      </div>
+      <div>
+        <h3>We practised every day</h3>
+        <ul>{story.practised.map((item) => <li>{item}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lede { font-size: 1.2rem; margin: 0; }
+  h2 { margin: 0 0 0.35rem; }
+  section { margin-top: 3.5rem; }
+
+  .stats {
+    margin-top: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.1rem 1.1rem;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .stat .value { font-family: var(--display); font-weight: 700; font-size: 2.5rem; line-height: 1; }
+  .stat .label { color: var(--muted); font-size: 0.9rem; margin-top: 0.4rem; }
+  .stat:nth-child(5n + 1) .value { color: var(--pink); }
+  .stat:nth-child(5n + 2) .value { color: var(--marigold); }
+  .stat:nth-child(5n + 3) .value { color: var(--teal); }
+  .stat:nth-child(5n + 4) .value { color: var(--purple); }
+  .stat:nth-child(5n + 5) .value { color: var(--coral); }
+
+  .strip { display: flex; gap: 2px; height: 2.5rem; margin-top: 1.25rem; }
+  .segment {
+    flex-basis: 0;
+    min-width: 2px;
+    background: var(--part);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .segment { position: relative; cursor: default; }
+  .segment:hover, .segment:focus-visible { outline: 2px solid var(--text); outline-offset: 1px; z-index: 1; }
+  .tip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 0.6rem);
+    left: 0;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--line);
+    box-shadow: 0 4px 14px rgb(31 17 71 / 0.15);
+    white-space: nowrap;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    pointer-events: none;
+  }
+  .tip-end { left: auto; right: 0; }
+  .tip strong, .tip-when { display: block; }
+  .tip-when { color: var(--muted); }
+  .segment:hover .tip, .segment:focus .tip { display: flex; }
+  .ticks { position: relative; height: 1.5rem; border-top: 1px solid var(--line); margin-top: 0.4rem; }
+  .ticks span { position: absolute; top: 0.2rem; font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+  .ticks span:nth-child(even) { display: none; }
+  .legend { list-style: none; padding: 0; margin: 0.75rem 0 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; font-size: 0.9rem; }
+  .legend li { display: flex; align-items: center; gap: 0.5rem; }
+  .swatch { width: 0.9rem; height: 0.9rem; display: inline-block; }
+
+  .bars { list-style: none; padding: 0; margin: 1rem 0 0; max-width: 44rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .bars li { display: grid; grid-template-columns: 9.5rem 1fr 2.5rem; align-items: center; gap: 0.75rem; }
+  .who { display: flex; align-items: center; gap: 0.5rem; }
+  .track { height: 0.9rem; }
+  .bar { display: block; height: 100%; background: var(--teal); border-radius: 0 4px 4px 0; min-width: 2px; }
+  .bars li:hover .bar { background: var(--purple); }
+  .days { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+
+  .part {
+    border-top: 6px solid var(--part);
+    padding-top: 1.5rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 1.5rem 3rem;
+  }
+  .part .eyebrow { color: var(--text); }
+  .part h2 { margin-top: 0.3rem; }
+  .ride { font-weight: 500; margin: 0 0 0.75rem; }
+  .stops { list-style: none; padding: 0; margin: 0; border-left: 2px solid var(--part); }
+  .stops li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: 'flag where len' 'flag when len';
+    column-gap: 0.75rem;
+    align-items: center;
+    padding: 0.45rem 0 0.45rem 1rem;
+  }
+  .stops li + li { border-top: 1px solid var(--line); }
+  .stops :global(.flag) { grid-area: flag; }
+  .where { grid-area: where; font-weight: 500; }
+  .when { grid-area: when; font-size: 0.85rem; }
+  .len { grid-area: len; font-variant-numeric: tabular-nums; font-size: 0.9rem; }
+  .photos { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 0.75rem; }
+  .photos img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3; }
+
+  .lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1.5rem 3rem; margin-top: 1rem; }
+  .lists h3 { font-size: 1.15rem; margin: 0 0 0.5rem; }
+  .lists ul { margin: 0; padding-left: 1.2rem; }
+  .lists li { padding: 0.15rem 0; }
+
+  @media (max-width: 48rem) {
+    .part { grid-template-columns: 1fr; }
+    .ticks span:nth-child(odd):not(:first-child) { display: none; }
+  }
+</style>

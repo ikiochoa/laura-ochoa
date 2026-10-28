@@ -25,6 +25,7 @@ export type Chapter = {
   // TODO(Laura): what you enjoyed most and what you took away from each chapter.
   loved?: string;
   learned?: string;
+  link?: { href: string; label: string };
 };
 
 // My career as a story. The last chapter is still being written.
@@ -111,8 +112,10 @@ export const chapters: Chapter[] = [
   {
     number: 'Five',
     title: 'Our family sabbatical',
-    period: '2025 – now',
-    summary: 'Time away from work with my family. The stories and what we learned are coming soon.',
+    period: '2025 – 2026',
+    summary:
+      'A year and a half on the road as a family: Europe by camper van, the mountains of Colombia, Mexico and the American southwest. We stepped out of our comfort zone, learned new skills and got to know each other and ourselves much better.',
+    link: { href: 'story/sabbatical/', label: 'Read the whole story, with the route and the numbers' },
   },
   {
     number: 'Six',

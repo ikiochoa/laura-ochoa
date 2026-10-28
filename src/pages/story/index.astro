@@ -31,6 +31,7 @@ const chapterColors = ['pink', 'marigold', 'teal', 'purple', 'coral', 'text'];
       )}
       {chapter.loved && <p><strong>What I loved:</strong> {chapter.loved}</p>}
       {chapter.learned && <p><strong>What I learned:</strong> {chapter.learned}</p>}
+      {chapter.link && <p><a href={import.meta.env.BASE_URL + chapter.link.href}>{chapter.link.label} →</a></p>}
     </section>
   ))}
 </Base>
