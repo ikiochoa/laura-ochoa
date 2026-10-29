@@ -59,9 +59,18 @@ const km = (a, b) => {
 };
 
 // Points tagged as flights or ferries are left out: the map shows where we went on land.
-const track = [...gpx.matchAll(/<trkpt lat="([-\d.]+)" lon="([-\d.]+)"><time>([^<]+)<\/time>(?:<extension><transport>(\w+)<\/transport>)?/g)]
-  .filter(([, , , , transport]) => transport !== 'flight' && transport !== 'ferry')
-  .map(([, lat, lon, time]) => ({ lat: +lat, lon: +lon, t: Date.parse(time) }));
+const tagged = [...gpx.matchAll(/<trkpt lat="([-\d.]+)" lon="([-\d.]+)"><time>([^<]+)<\/time>(?:<extension><transport>(\w+)<\/transport>)?/g)]
+  .map(([, lat, lon, time, transport]) => ({ lat: +lat, lon: +lon, t: Date.parse(time), transport }));
+// The full track only starts in mid-April 2025 (the first points with a transport tag).
+// Before that, we use the stops we posted, joined by straight lines.
+const fullTrackFrom = tagged.find((p) => p.transport)?.t ?? 0;
+const posted = [...gpx.matchAll(/<wpt lat="([-\d.]+)" lon="([-\d.]+)">[\s\S]*?<time>([^<]+)<\/time>/g)]
+  .map(([, lat, lon, time]) => ({ lat: +lat, lon: +lon, t: Date.parse(time), posted: true }))
+  .filter((p) => p.t < fullTrackFrom);
+const track = [
+  ...posted,
+  ...tagged.filter((p) => p.t >= fullTrackFrom && p.transport !== 'flight' && p.transport !== 'ferry'),
+];
 let points = track
   .filter((p) => p.t >= tripStart && p.t < tripEnd && km(p, home) > privacyKm && plausible(p) && onLand(p))
   .sort((a, b) => a.t - b.t);
@@ -113,7 +122,20 @@ function simplify(pts, tolerance) {
 // Split into lines: a new line starts at each new part, and at every gap of more than
 // 40 km between two points (a flight, a ferry, or hours without a signal). Gaps are left
 // out of the map, so it shows only stretches we have a real track for, not straight jumps.
-const gap = (a, b) => km(a, b) > 40;
+// Posted stops (before the full track starts) are joined with a straight line, as long
+// as that line runs mostly over land (no ferry crossings).
+const overLand = (a, b) => {
+  // Partly over land is enough: roads along the coast cut corners over the sea, while a
+  // ferry crossing is almost all sea.
+  const steps = Math.max(2, Math.ceil(km(a, b) / 10));
+  let land = 0;
+  for (let i = 1; i < steps; i++) {
+    const f = i / steps;
+    if (onLand({ lat: a.lat + (b.lat - a.lat) * f, lon: a.lon + (b.lon - a.lon) * f })) land++;
+  }
+  return land / (steps - 1) >= 0.3;
+};
+const gap = (a, b) => km(a, b) > 40 && !((a.posted || b.posted) && overLand(a, b));
 const partOf = (t) => partStarts.filter((s) => t >= s).length - 1;
 const lines = [];
 let prev;
