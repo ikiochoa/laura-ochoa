@@ -1,0 +1,800 @@
+[
+  {
+    "title": "A Marriage at Sea",
+    "author": "Sophie Elmhirst",
+    "status": "read",
+    "year": 2026,
+    "loved": false,
+    "isbn": "9780593854280",
+    "summary": "A couple sets out to sail around the world, is shipwrecked in the Pacific and survives 118 days on a raft, and their marriage with it."
+  },
+  {
+    "title": "Can't Hurt Me",
+    "author": "David Goggins",
+    "status": "read",
+    "year": 2026,
+    "loved": false,
+    "isbn": "9781544512266",
+    "summary": "A former Navy SEAL on pushing past self-imposed limits through discipline and mental toughness."
+  },
+  {
+    "title": "The Myth of Normal",
+    "author": "Gabor Maté",
+    "status": "reading",
+    "year": 2026,
+    "loved": false,
+    "isbn": "9780593083888",
+    "summary": "How the stress and disconnection of modern life make us ill, and what healing could look like."
+  },
+  {
+    "title": "Miteinander reden 3: Das innere Team",
+    "author": "Friedemann Schulz von Thun",
+    "status": "reading",
+    "year": 2026,
+    "loved": false,
+    "isbn": "9783499605451",
+    "summary": "The \"inner team\": the many voices inside us, and how to lead them to communicate clearly."
+  },
+  {
+    "title": "Miteinander reden 2",
+    "author": "Friedemann Schulz von Thun",
+    "status": "read",
+    "year": 2026,
+    "loved": false,
+    "isbn": "9783499184963",
+    "summary": "Eight communication styles, from helpful to self-sacrificing, and how each one can grow."
+  },
+  {
+    "title": "Miteinander reden 1",
+    "author": "Friedemann Schulz von Thun",
+    "status": "read",
+    "year": 2026,
+    "loved": true,
+    "isbn": "9783499174896",
+    "summary": "The four-sides model: every message carries facts, self-revelation, relationship and an appeal."
+  },
+  {
+    "title": "The World Beyond Your Head",
+    "author": "Matthew B. Crawford",
+    "status": "reading",
+    "year": 2026,
+    "loved": false,
+    "isbn": "9780374292980",
+    "summary": "Why our attention is a shared resource, and how skilled engagement with the world makes us individuals."
+  },
+  {
+    "title": "Becoming",
+    "author": "Michelle Obama",
+    "status": "reading",
+    "year": 2026,
+    "loved": false,
+    "isbn": "9781524763138",
+    "summary": "Michelle Obama's memoir, from Chicago's South Side to the White House."
+  },
+  {
+    "title": "21 Lessons for the 21st Century",
+    "author": "Yuval Noah Harari",
+    "status": "read",
+    "year": 2026,
+    "loved": false,
+    "isbn": "9780525512172",
+    "summary": "Big questions for the present, from AI and fake news to meaning, work and education."
+  },
+  {
+    "title": "Moral Ambition",
+    "author": "Rutger Bregman",
+    "status": "read",
+    "year": 2026,
+    "loved": false,
+    "isbn": "9780316580359",
+    "summary": "A call to use our talents for the biggest problems in the world, not just for a good career."
+  },
+  {
+    "title": "Turn the Ship Around!",
+    "author": "L. David Marquet",
+    "status": "read",
+    "year": 2024,
+    "loved": false,
+    "isbn": "9781591846406",
+    "summary": "A submarine captain turns a struggling crew into leaders by handing over control."
+  },
+  {
+    "title": "Stand Out of Our Light",
+    "author": "James Williams",
+    "status": "read",
+    "year": 2024,
+    "loved": false,
+    "isbn": "9781108452991",
+    "summary": "How the attention economy erodes our freedom to choose what matters to us."
+  },
+  {
+    "title": "Slow Productivity",
+    "author": "Cal Newport",
+    "status": "read",
+    "year": 2024,
+    "loved": false,
+    "isbn": "9780593544853",
+    "summary": "Do fewer things, work at a natural pace and obsess over quality."
+  },
+  {
+    "title": "The Psychology of Money",
+    "author": "Morgan Housel",
+    "status": "read",
+    "year": 2024,
+    "loved": false,
+    "isbn": "9780857197689",
+    "summary": "Short stories on how behaviour, not maths, decides how we handle money."
+  },
+  {
+    "title": "Four Thousand Weeks",
+    "author": "Oliver Burkeman",
+    "status": "read",
+    "year": 2024,
+    "loved": false,
+    "isbn": "9780374159122",
+    "summary": "Life is short and time is finite, so stop trying to do everything and choose what matters."
+  },
+  {
+    "title": "Time to Think",
+    "author": "Nancy Kline",
+    "status": "read",
+    "year": 2024,
+    "loved": false,
+    "isbn": "9780706377453",
+    "summary": "How quality listening, and giving people time to think, unlocks their best ideas."
+  },
+  {
+    "title": "Surely You're Joking, Mr. Feynman!",
+    "author": "Richard P. Feynman",
+    "status": "read",
+    "year": 2024,
+    "loved": false,
+    "isbn": "9780393355628",
+    "summary": "The physicist's playful stories of curiosity, safecracking and science."
+  },
+  {
+    "title": "The Promise That Changes Everything",
+    "author": "Nancy Kline",
+    "status": "read",
+    "year": 2024,
+    "loved": false,
+    "isbn": "9780241423516",
+    "summary": "The power of listening without interrupting, so others can think for themselves."
+  },
+  {
+    "title": "Doña Perfecta",
+    "author": "Benito Pérez Galdós",
+    "status": "read",
+    "year": 2023,
+    "loved": false,
+    "isbn": "9789871136131",
+    "summary": "A classic Spanish novel about the clash between tradition and progress in a small town."
+  },
+  {
+    "title": "Hunt, Gather, Parent",
+    "author": "Michaeleen Doucleff",
+    "status": "read",
+    "year": 2023,
+    "loved": true,
+    "isbn": "9781982149673",
+    "summary": "What Maya, Inuit and Hadzabe families teach us about raising cooperative, confident children."
+  },
+  {
+    "title": "This Is Your Mind on Plants",
+    "author": "Michael Pollan",
+    "status": "reading",
+    "year": 2022,
+    "loved": false,
+    "isbn": "9780593296905",
+    "summary": "Three plants, opium, caffeine and mescaline, and what they reveal about us."
+  },
+  {
+    "title": "Influence",
+    "author": "Robert B. Cialdini",
+    "status": "read",
+    "year": 2022,
+    "loved": false,
+    "isbn": "9780061241895",
+    "summary": "The six principles of persuasion, and how to spot them being used on us."
+  },
+  {
+    "title": "The Craving Mind",
+    "author": "Judson Brewer",
+    "status": "read",
+    "year": 2022,
+    "loved": false,
+    "isbn": "9780300223248",
+    "summary": "Why we get hooked on habits, and how mindfulness helps to break them."
+  },
+  {
+    "title": "French Children Don't Throw Food",
+    "author": "Pamela Druckerman",
+    "status": "reading",
+    "year": 2022,
+    "loved": false,
+    "isbn": "9780552779180",
+    "summary": "An American mother in Paris observes how French parents raise patient, calm children."
+  },
+  {
+    "title": "The Continuum Concept",
+    "author": "Jean Liedloff",
+    "status": "read",
+    "year": 2022,
+    "loved": false,
+    "isbn": "9780201050714",
+    "summary": "What a people in the Venezuelan jungle taught the author about infants, closeness and happiness."
+  },
+  {
+    "title": "Lying",
+    "author": "Sam Harris",
+    "status": "read",
+    "year": 2022,
+    "loved": true,
+    "isbn": "9781940051000",
+    "summary": "A short, convincing case for never telling even small lies."
+  },
+  {
+    "title": "Poor Charlie's Almanack",
+    "author": "Charles T. Munger",
+    "status": "reading",
+    "year": 2022,
+    "loved": false,
+    "isbn": "9781578643660",
+    "summary": "Charlie Munger's wit and wisdom, and his latticework of mental models."
+  },
+  {
+    "title": "La Crianza Rebelde",
+    "author": "Ana Acosta Rodriguez",
+    "status": "reading",
+    "year": 2022,
+    "loved": false,
+    "isbn": null,
+    "summary": "Raising children with respect, awareness and empathy."
+  },
+  {
+    "title": "Unconditional Parenting",
+    "author": "Alfie Kohn",
+    "status": "read",
+    "year": 2022,
+    "loved": false,
+    "isbn": "9780743487481",
+    "summary": "Why rewards and punishments backfire, and how to parent with love and reason."
+  },
+  {
+    "title": "Practicando el poder del ahora",
+    "author": "Eckhart Tolle",
+    "status": "reading",
+    "year": 2022,
+    "loved": false,
+    "isbn": "9781577317593",
+    "summary": "Exercises and meditations for living in the present moment."
+  },
+  {
+    "title": "Antifragile",
+    "author": "Nassim Nicholas Taleb",
+    "status": "read",
+    "year": 2022,
+    "loved": false,
+    "isbn": "9781400067824",
+    "summary": "Some things get stronger from shocks and disorder, and how to build lives and systems like that."
+  },
+  {
+    "title": "El Oculto Equilibrio de las Cosas",
+    "author": "Guillermo Leone",
+    "status": "read",
+    "year": 2022,
+    "loved": false,
+    "isbn": null,
+    "summary": "Reflections on the hidden balance and connections between things."
+  },
+  {
+    "title": "Many Lives, Many Masters",
+    "author": "Brian L. Weiss",
+    "status": "read",
+    "year": 2022,
+    "loved": false,
+    "isbn": "9780446520591",
+    "summary": "A psychiatrist's account of regression therapy with a patient, and how it changed his view of life."
+  },
+  {
+    "title": "Incerto",
+    "author": "Nassim Nicholas Taleb",
+    "status": "reading",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780812997699",
+    "summary": "Taleb's four books on uncertainty, randomness and the limits of knowledge."
+  },
+  {
+    "title": "HypnoBirthing",
+    "author": "Marie F. Mongan",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780757302664",
+    "summary": "Relaxation and self-hypnosis techniques for a calm birth."
+  },
+  {
+    "title": "The Montessori Toddler",
+    "author": "Simone Davies",
+    "status": "reading",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9789082796902",
+    "summary": "Applying Montessori principles at home with toddlers."
+  },
+  {
+    "title": "The New Contented Little Baby Book",
+    "author": "Gina Ford",
+    "status": "reading",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780091912697",
+    "summary": "A structured routine for babies in their first year."
+  },
+  {
+    "title": "Set Boundaries, Find Peace",
+    "author": "Nedra Glover Tawwab",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780593192108",
+    "summary": "How to set healthy boundaries in relationships, and keep them."
+  },
+  {
+    "title": "Cribsheet",
+    "author": "Emily Oster",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780525559252",
+    "summary": "An economist uses data to cut through parenting advice for the early years."
+  },
+  {
+    "title": "No-Drama Discipline",
+    "author": "Daniel J. Siegel",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780345548054",
+    "summary": "Discipline as teaching: connecting with children before redirecting them."
+  },
+  {
+    "title": "The Book You Wish Your Parents Had Read [and Your Children Will Be Glad That You Did]",
+    "author": "Philippa Perry",
+    "status": "read",
+    "year": 2021,
+    "loved": true,
+    "isbn": "9780241250990",
+    "summary": "A psychotherapist on the relationships we build with our children, and what we pass on."
+  },
+  {
+    "title": "The Body Keeps the Score",
+    "author": "Bessel van der Kolk",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780670785933",
+    "summary": "How trauma lives in the body, and the therapies that help people recover."
+  },
+  {
+    "title": "What to Expect When You're Expecting",
+    "author": "Heidi Murkoff",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780761121329",
+    "summary": "The classic month-by-month guide to pregnancy."
+  },
+  {
+    "title": "Americanah",
+    "author": "Chimamanda Ngozi Adichie",
+    "status": "read",
+    "year": 2021,
+    "loved": true,
+    "isbn": "9780307271082",
+    "summary": "A Nigerian woman builds a life in America, and a novel about race, identity and love."
+  },
+  {
+    "title": "The Third Policeman",
+    "author": "Flann O'Brien",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9781564782144",
+    "summary": "A dark, absurd and very funny Irish novel about a murder and a strange police station."
+  },
+  {
+    "title": "Thoughts Without A Thinker",
+    "author": "Mark Epstein",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780465085859",
+    "summary": "Where Buddhist meditation and Western psychotherapy meet."
+  },
+  {
+    "title": "Secrets of the Baby Whisperer",
+    "author": "Tracy Hogg",
+    "status": "read",
+    "year": 2021,
+    "loved": true,
+    "isbn": "9780345479099",
+    "summary": "How to read, calm and communicate with a baby."
+  },
+  {
+    "title": "Mindful Hypnobirthing",
+    "author": "Sophie Fletcher",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": null,
+    "summary": "Hypnosis and mindfulness techniques for a calm, confident birth."
+  },
+  {
+    "title": "Dawn of the New Everything",
+    "author": "Jaron Lanier",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9781627794091",
+    "summary": "A memoir of virtual reality's early days by one of its pioneers."
+  },
+  {
+    "title": "Nonviolent Communication",
+    "author": "Marshall B. Rosenberg",
+    "status": "read",
+    "year": 2021,
+    "loved": true,
+    "isbn": "9781892005038",
+    "summary": "Observations, feelings, needs and requests: a language for empathy and honesty."
+  },
+  {
+    "title": "Memoirs of a Geisha",
+    "author": "Arthur Golden",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9781400096893",
+    "summary": "The life of a geisha in Kyoto before and after World War II."
+  },
+  {
+    "title": "The Hypnobirthing Book",
+    "author": "Katharine Graves",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780957144514",
+    "summary": "An inspirational guide to a calm, natural birth."
+  },
+  {
+    "title": "Fair Play",
+    "author": "Eve Rodsky",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780525541936",
+    "summary": "A card system for sharing household and family work fairly between partners."
+  },
+  {
+    "title": "Resolver los conflictos através de la comunicación no violenta",
+    "author": "Marshall B. Rosenberg",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9788415053309",
+    "summary": "A conversation on resolving conflicts with nonviolent communication."
+  },
+  {
+    "title": "The Way of Integrity",
+    "author": "Martha N. Beck",
+    "status": "read",
+    "year": 2021,
+    "loved": true,
+    "isbn": "9781984881489",
+    "summary": "Finding your way back to your true self by living with integrity."
+  },
+  {
+    "title": "The Infinite Machine",
+    "author": "Camila Russo",
+    "status": "reading",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780062886149",
+    "summary": "The story of Ethereum and the people who built it."
+  },
+  {
+    "title": "The Hard Thing About Hard Things",
+    "author": "Ben Horowitz",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780062273208",
+    "summary": "Straight talk on the hardest parts of building and running a company."
+  },
+  {
+    "title": "All the Rage",
+    "author": "Darcy Lockman",
+    "status": "read",
+    "year": 2021,
+    "loved": true,
+    "isbn": "9780062861467",
+    "summary": "Why equal partnership at home so often stays a myth after children arrive."
+  },
+  {
+    "title": "Breath",
+    "author": "James Nestor",
+    "status": "read",
+    "year": 2021,
+    "loved": false,
+    "isbn": "9780735213616",
+    "summary": "How we breathe affects our health, and what ancient and modern science say about it."
+  },
+  {
+    "title": "Factfulness",
+    "author": "Hans Rosling",
+    "status": "read",
+    "year": 2020,
+    "loved": false,
+    "isbn": "9781473637467",
+    "summary": "Ten instincts that distort our view of the world, which is better than we think."
+  },
+  {
+    "title": "Looking for Spinoza",
+    "author": "António Damásio",
+    "status": "read",
+    "year": 2020,
+    "loved": false,
+    "isbn": "9780156028714",
+    "summary": "A neuroscientist on feelings and emotions, guided by the philosopher Spinoza."
+  },
+  {
+    "title": "Invisible Women",
+    "author": "Caroline Criado Pérez",
+    "status": "read",
+    "year": 2020,
+    "loved": false,
+    "isbn": "9781419729072",
+    "summary": "How a world built on data about men overlooks half the population."
+  },
+  {
+    "title": "The Master and Margarita",
+    "author": "Mikhail Bulgakov",
+    "status": "read",
+    "year": 2020,
+    "loved": false,
+    "isbn": "9780679760801",
+    "summary": "The devil visits Soviet Moscow in Bulgakov's wild, satirical classic."
+  },
+  {
+    "title": "Never Split the Difference",
+    "author": "Chris Voss",
+    "status": "read",
+    "year": 2020,
+    "loved": true,
+    "isbn": "9780062407818",
+    "summary": "An FBI hostage negotiator's techniques for negotiating in everyday life."
+  },
+  {
+    "title": "Already Free",
+    "author": "Bruce Tift",
+    "status": "read",
+    "year": 2020,
+    "loved": true,
+    "isbn": "9781604074741",
+    "summary": "How Buddhism and psychotherapy together can help us accept our neurotic patterns."
+  },
+  {
+    "title": "Thinking, Fast and Slow",
+    "author": "Daniel Kahneman",
+    "status": "read",
+    "year": 2020,
+    "loved": false,
+    "isbn": "9780374275631",
+    "summary": "Our two ways of thinking, fast and slow, and the biases that come with them."
+  },
+  {
+    "title": "Choose Yourself",
+    "author": "James Altucher",
+    "status": "read",
+    "year": 2017,
+    "loved": false,
+    "isbn": "9781619610231",
+    "summary": "Taking charge of your own career and wellbeing instead of waiting to be chosen.",
+    "note": "Good read. I like the sincere writing from James, it is inspiring. I certainly take with me some new ideas I want to apply to my life."
+  },
+  {
+    "title": "The Psychedelic Explorer's Guide",
+    "author": "James Fadiman",
+    "status": "reading",
+    "year": 2020,
+    "loved": false,
+    "isbn": "9781594774027",
+    "summary": "A guide to the safe and therapeutic use of psychedelics."
+  },
+  {
+    "title": "How to Change Your Mind",
+    "author": "Michael Pollan",
+    "status": "reading",
+    "year": 2020,
+    "loved": false,
+    "isbn": "9780241294222",
+    "summary": "The history and new science of psychedelics, and what they reveal about the mind."
+  },
+  {
+    "title": "Solve for Happy",
+    "author": "Mo Gawdat",
+    "status": "read",
+    "year": 2017,
+    "loved": true,
+    "isbn": "9781501157554",
+    "summary": "An engineer turns happiness into an equation, after the loss of his son.",
+    "note": "Beautiful book, really liked it. Wow, a great read that I can really recommend to anyone. A must for parents that lost their kids. Sad, beautiful, inspiring, probably life changing."
+  },
+  {
+    "title": "The Philosopher and the Wolf",
+    "author": "Mark Rowlands",
+    "status": "read",
+    "year": 2017,
+    "loved": true,
+    "isbn": "9781847082961",
+    "summary": "A philosopher lives with a wolf for over a decade, and reflects on love, death and happiness."
+  },
+  {
+    "title": "The Kite Runner",
+    "author": "Khaled Hosseini",
+    "status": "read",
+    "year": 2017,
+    "loved": true,
+    "isbn": "9781594480003",
+    "summary": "A story of friendship, betrayal and redemption in Afghanistan."
+  },
+  {
+    "title": "The Spinoza Problem",
+    "author": "Irvin D. Yalom",
+    "status": "read",
+    "year": 2017,
+    "loved": true,
+    "isbn": "9780465029365",
+    "summary": "A novel weaving together the lives of Spinoza and a Nazi ideologue obsessed with him."
+  },
+  {
+    "title": "Weapons of Math Destruction",
+    "author": "Cathy O'Neil",
+    "status": "read",
+    "year": 2017,
+    "loved": false,
+    "isbn": "9780553418828",
+    "summary": "How algorithms can reinforce inequality and threaten democracy."
+  },
+  {
+    "title": "Radical Candor",
+    "author": "Kim Malone Scott",
+    "status": "read",
+    "year": 2017,
+    "loved": true,
+    "isbn": "9781250103529",
+    "summary": "Caring personally while challenging directly: a guide to being a good boss."
+  },
+  {
+    "title": "The Telomere Effect",
+    "author": "Elizabeth Blackburn",
+    "status": "read",
+    "year": 2018,
+    "loved": true,
+    "isbn": "9780297609247",
+    "summary": "How our habits and stress affect the telomeres at the ends of our chromosomes, and how we age.",
+    "note": "A must read for everyone! This book finally puts all the pieces together, it is a master piece and must read for everyone. Extremely interesting, well written, and revolutionary. Thanks for that!"
+  },
+  {
+    "title": "Against Empathy",
+    "author": "Paul Bloom",
+    "status": "read",
+    "year": 2018,
+    "loved": false,
+    "isbn": "9780062339355",
+    "summary": "Why empathy can be a poor moral guide, and the case for rational compassion."
+  },
+  {
+    "title": "Shantaram",
+    "author": "Gregory David Roberts",
+    "status": "read",
+    "year": 2018,
+    "loved": true,
+    "isbn": "9780312330538",
+    "summary": "An escaped convict finds a new life in the slums and underworld of Bombay.",
+    "note": "Great read! This book is amazing, hard to believe it’s inspired in real life! Long, great book, I really liked it! :-)"
+  },
+  {
+    "title": "Naked Statistics",
+    "author": "Charles Wheelan",
+    "status": "read",
+    "year": 2018,
+    "loved": true,
+    "isbn": "9780393347777",
+    "summary": "Statistics explained intuitively, with real-world examples.",
+    "note": "Great book! Great refresher of concepts, or fantastic way to understand in a very intuitive way, with real-world and relevant examples. Really liked it."
+  },
+  {
+    "title": "Women Who Love Too Much",
+    "author": "Robin Norwood",
+    "status": "read",
+    "year": 2016,
+    "loved": false,
+    "isbn": null,
+    "summary": "Patterns in relationships with partners who are not good for us."
+  },
+  {
+    "title": "Anticancer, a New Way of Life",
+    "author": "David Servan-Schreiber",
+    "status": "read",
+    "year": 2016,
+    "loved": true,
+    "isbn": "9781101163054",
+    "summary": "A doctor and cancer survivor on food, exercise and mindset for health.",
+    "note": "Everyone should read this book, it's not only for patients. Very good, and I can't agree more from my own personal experience. We need to deal with our problems in an integral way. Body, mind and soul. I really liked it and look forward to add more healthy habits into my life! Great advice. He mentions Irvin Yalom, another great author to read. It's all connected!"
+  },
+  {
+    "title": "Creatures of a Day",
+    "author": "Irvin D. Yalom",
+    "status": "read",
+    "year": 2016,
+    "loved": true,
+    "isbn": "9780349407432",
+    "summary": "Stories from a psychotherapist about meaning, ageing and mortality."
+  },
+  {
+    "title": "Love's Executioner",
+    "author": "Irvin D. Yalom",
+    "status": "read",
+    "year": 2016,
+    "loved": true,
+    "isbn": "9780141975450",
+    "summary": "Ten stories from Yalom's therapy practice about the human condition."
+  },
+  {
+    "title": "When the Body Says No",
+    "author": "Gabor Maté",
+    "status": "read",
+    "year": 2016,
+    "loved": true,
+    "isbn": "9780470349472",
+    "summary": "How hidden stress and repressed emotions can make us ill."
+  },
+  {
+    "title": "The Only Woman in the Room",
+    "author": "Eileen Pollack",
+    "status": "read",
+    "year": 2016,
+    "loved": true,
+    "isbn": "9780807046616",
+    "summary": "Why women are still underrepresented in science, from a physicist who lived it."
+  },
+  {
+    "title": "Ghost Boy",
+    "author": "Martin Pistorius",
+    "status": "read",
+    "year": 2015,
+    "loved": false,
+    "isbn": null,
+    "summary": "A boy trapped in his own body for years, and how he found his way back."
+  },
+  {
+    "title": "Sex at Dawn",
+    "author": "Christopher Ryan",
+    "status": "read",
+    "year": 2015,
+    "loved": false,
+    "isbn": "9780061707803",
+    "summary": "An evolutionary look at human sexuality and modern relationships."
+  },
+  {
+    "title": "Attached",
+    "author": "Amir Levine",
+    "status": "read",
+    "year": 2015,
+    "loved": false,
+    "isbn": "9781101475164",
+    "summary": "How our attachment styles shape our love lives."
+  }
+]
