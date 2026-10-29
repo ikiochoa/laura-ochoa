@@ -27,7 +27,7 @@ const sections = [
       <CardGrid count={items.length}>
         {items.map((p) => (
           <Card
-            href={`${base}projects/${p.id}/`}
+            href={base + (p.data.page ?? `projects/${p.id}/`)}
             title={p.data.title}
             meta={p.data.stage === 'idea' ? undefined : projectStages[p.data.stage]}
             summary={p.data.summary}

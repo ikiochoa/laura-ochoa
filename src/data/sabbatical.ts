@@ -16,6 +16,16 @@ export const countries: Record<CountryCode, { name: string; language: string; co
   DE: { name: 'Germany', language: 'German', continent: 'Europe' },
 };
 
+// The places we loved most. Each can get a photo later (files in src/assets/sabbatical/).
+export const highlights: { place: string; country: CountryCode; photo?: { src: ImageMetadata; alt: string } }[] = [
+  { place: 'Liguria', country: 'IT' },
+  { place: 'Sierra Nevada', country: 'ES' },
+  { place: 'The Basque Country', country: 'ES' },
+  { place: 'Colombia', country: 'CO' },
+  { place: 'Utah', country: 'US' },
+  { place: 'Colorado', country: 'US' },
+];
+
 export type Part = {
   number: string;
   title: string;
@@ -67,10 +77,10 @@ export const parts: Part[] = [
   {
     number: 'Three',
     title: 'Mexico and the American southwest',
-    ride: 'Mountain bike trails across five US states',
+    ride: 'Mountain bike trails across six US states',
     color: 'teal',
     story:
-      'After figuring out how to ship a camper to another country, we went to Mexico while our car was being shipped to the USA. Then we spent almost three months in Texas, New Mexico, Utah, California and Nevada, looking for the best mountain bike trails.',
+      'After figuring out how to ship a camper to another country, we went to Mexico while our car was being shipped to the USA. Then we spent almost three months in Texas, New Mexico, Utah, California, Nevada and Colorado, looking for the best mountain bike trails.',
     stops: [
       { country: 'MX', from: '2026-02-27' },
       { country: 'US', from: '2026-03-18' },
@@ -125,7 +135,7 @@ export const stats = {
   continents: unique(daysPerCountry.map((c) => countries[c.country].continent)).length,
   languages: unique(daysPerCountry.map((c) => countries[c.country].language)).length,
   borders: stays.length - 1,
-  usStates: 5,
+  usStates: 6,
 };
 
 export const story = {
