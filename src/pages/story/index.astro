@@ -23,7 +23,7 @@ const chapterColors = ['pink', 'marigold', 'teal', 'purple', 'coral', 'text'];
         <ul class="roles">
           {chapter.roles.map((role) => (
             <li>
-              <strong>{role.title}</strong>, {role.org} <span class="muted">({role.period})</span>
+              <strong>{role.title}</strong>, {role.org}{role.period && <span class="muted"> ({role.period})</span>}
               {role.note && <p class="muted">{role.note}</p>}
             </li>
           ))}

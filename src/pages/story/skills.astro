@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import StoryNav from '../../components/StoryNav.astro';
-import { skills, dreamNext } from '../../data/profile';
+import { skills, strengths, excitedAbout, dreamNext } from '../../data/profile';
 ---
 <Base title="Skills and what's next" description="What Laura Ochoa brings to work, and what she'd love to do next.">
   <StoryNav />
@@ -9,6 +9,11 @@ import { skills, dreamNext } from '../../data/profile';
     <h1>Skills and what's next</h1>
     <p class="muted">What I bring to work, and where I'd love to take it.</p>
   </header>
+
+  <section class="prose thrive">
+    <h2>Where I thrive</h2>
+    {strengths.map((line) => <p>{line}</p>)}
+  </section>
 
   <div class="skills">
     {skills.map((group) => (
@@ -18,6 +23,18 @@ import { skills, dreamNext } from '../../data/profile';
       </section>
     ))}
   </div>
+
+  <section class="excited">
+    <h2>What excites me</h2>
+    <div class="skills">
+      {excitedAbout.map((item) => (
+        <div>
+          <h3>{item.title}</h3>
+          <p class="muted">{item.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
 
   <section class="prose next">
     <h2>What I'd dream of doing next</h2>
@@ -32,5 +49,9 @@ import { skills, dreamNext } from '../../data/profile';
     gap: 1.5rem;
   }
   .skills ul { padding-left: 1.25rem; }
+  .thrive { margin-bottom: 2rem; }
+  .thrive p { margin: 0.25rem 0; }
+  .excited { padding-top: 2rem; border-top: 1px solid var(--line); margin-top: 1rem; }
+  .excited h3 { margin-bottom: 0.25rem; font-size: 1.1rem; }
   .next { padding-top: 2rem; border-top: 1px solid var(--line); margin-top: 1rem; }
 </style>

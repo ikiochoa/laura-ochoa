@@ -8,6 +8,8 @@ export const profile = {
     "Product and data person in Zurich. I've led teams at Swisscom, notime and Digitec Galaxus, and I still love building things myself.",
   home: 'Zurich, Switzerland',
   places: ['Mexico', 'Germany', 'the United States', 'Switzerland'],
+  // Places we lived in our camper during the sabbatical, for months at a time.
+  camperPlaces: ['Colombia', 'Italy'],
   loves: ['Italy'],
   languages: ['Spanish', 'English', 'German', 'Italian (learning)'],
   links: {
@@ -21,7 +23,7 @@ export type Chapter = {
   title: string;
   period: string;
   summary: string;
-  roles?: { title: string; org: string; period: string; note?: string }[];
+  roles?: { title: string; org: string; period?: string; note?: string }[];
   // TODO(Laura): what you enjoyed most and what you took away from each chapter.
   loved?: string;
   learned?: string;
@@ -35,13 +37,18 @@ export const chapters: Chapter[] = [
     title: 'From Mexico to Zurich',
     period: 'until 2012',
     summary:
-      'I grew up in Mexico and have lived in Germany, the United States and Switzerland. I came to Zurich for ETH and stayed: 16 years and a Swiss passport later, it is home.',
+      'I grew up in Guadalajara, Mexico, and at 19 moved to Mexico City to study for my bachelor\'s. I have also lived in Germany and the United States. I came to Zurich for ETH, fell in love with the nature and the mountains, and stayed: 16 years and a Swiss passport later, it is home.',
     roles: [
       {
         title: 'MSc Management, Technology and Economics',
         org: 'ETH Zurich',
         period: '2010 – 2012',
-        note: 'ETH Medal for my thesis, "What influences environmental patenting".',
+        note: 'ETH Medal for my thesis, "What influences environmental patenting". It argued that the climate crisis can only be solved with technology transfer.',
+      },
+      {
+        title: "Bachelor's degree",
+        org: 'Mexico City',
+        note: 'I left Guadalajara at 19 to study in the capital.',
       },
     ],
   },
@@ -152,13 +159,48 @@ export const skills = [
   },
 ];
 
+// Where I'm at my best.
+export const strengths = [
+  'I thrive at the intersection of technology, innovation, people and complexity.',
+  "I like to tackle challenges, and I'm a generalist rather than a specialist.",
+  'I love looking at data to understand the world.',
+];
+
+// What I'm curious about, in and beyond work.
+export const excitedAbout = [
+  {
+    title: 'People',
+    text: "I'm deeply interested in people, communication and human behaviour.",
+  },
+  {
+    title: 'Technology',
+    text: "I'm passionate about technology and an optimist about it. Back in my master's thesis, I argued that the climate crisis can only be solved with technology transfer.",
+  },
+  {
+    title: 'Body, mind and emotion',
+    text: 'I want to understand how our feelings and thoughts affect our bodies, and how the three connect.',
+  },
+];
+
 // TODO(Laura): what you would dream of doing next.
 export const dreamNext = 'Being written.';
 
+// What I believe about the times we live in.
+export const beliefs = [
+  'We are living in extremely exciting times, and we might look back on them in awe.',
+  'Critical thinking, communication and empathy will become extremely important for everyone.',
+];
+
 export const hobbies = [
   { name: 'Reading', note: 'Books feed my thinking. Some of them live on my bookshelf.' },
-  { name: 'Languages', note: 'Learning Italian right now.' },
-  { name: 'Building things', note: 'Small apps that scratch my own itch, like Italiano in giro.' },
+  {
+    name: 'Cycling',
+    note: "I'm a keen cyclist. We exchanged bikes instead of rings when we got engaged, and spent our honeymoon cycling around Japan for three weeks.",
+  },
+  {
+    name: 'Building things',
+    note: 'Small apps that scratch my own itch: Italiano in giro for learning Italian, the Council of Wisdom for thinking decisions through, Nourish and Nickle for smarter grocery shopping, and this website.',
+  },
   { name: 'Italy', note: 'A country I love.' },
 ];
 

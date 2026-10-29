@@ -4,6 +4,7 @@ import PhilosophyNav from '../../components/PhilosophyNav.astro';
 import Card from '../../components/Card.astro';
 import CardGrid from '../../components/CardGrid.astro';
 import { getThoughts } from '../../data/content';
+import { beliefs } from '../../data/profile';
 
 const base = import.meta.env.BASE_URL;
 const thoughts = await getThoughts();
@@ -14,9 +15,17 @@ const thoughts = await getThoughts();
     <h1>How I see the world</h1>
     <p class="muted">Reflections, half-formed and fully formed.</p>
   </header>
+  <section class="beliefs">
+    {beliefs.map((line) => <p>{line}</p>)}
+  </section>
   <CardGrid count={thoughts.length} empty="The first thoughts are on their way.">
     {thoughts.map((t) => (
       <Card href={`${base}philosophy/${t.id}/`} title={t.data.title} meta={t.data.written.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })} summary={t.data.summary} />
     ))}
   </CardGrid>
 </Base>
+
+<style>
+  .beliefs { max-width: 40rem; margin-bottom: 2rem; padding-left: 1rem; border-left: 3px solid var(--accent); }
+  .beliefs p { margin: 0.5rem 0; font-size: 1.15rem; }
+</style>
