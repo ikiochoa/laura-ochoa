@@ -3,6 +3,7 @@
 // The raw GPX stays out of the repo: we keep only the trip dates, drop the stretch
 // around home, simplify the line and round coordinates to about 100 m.
 import { readFileSync, writeFileSync } from 'node:fs';
+import { feature } from 'topojson-client';
 
 const [file] = process.argv.slice(2);
 if (!file) throw new Error('Pass the path to the GPX file.');
@@ -10,7 +11,7 @@ const gpx = readFileSync(file, 'utf8');
 
 // Where we were on each day comes from the itinerary in src/data/sabbatical.ts.
 const itinerary = readFileSync(new URL('../src/data/sabbatical.ts', import.meta.url), 'utf8');
-const stops = [...itinerary.matchAll(/\{ country: '(\w\w)', from: '([\d-]+)' \}/g)].map(([, country, from]) => ({ country, from: Date.parse(from) }));
+const stops = [...itinerary.matchAll(/\{ country: '(\w\w)', from: '([\d-]+)'(, aside: true)? \}/g)].map(([, country, from, aside]) => ({ country, from: Date.parse(from), aside: !!aside }));
 const partStarts = [...itinerary.matchAll(/stops: \[\s*\{ country: '\w\w', from: '([\d-]+)'/g)].map(([, from]) => Date.parse(from));
 const tripStart = stops[0].from;
 const tripEnd = Date.parse(itinerary.match(/const end = '([\d-]+)'/)[1]);
@@ -25,8 +26,26 @@ const boxes = {
   DE: [47.2, 55.1, 5.8, 15.1], CO: [-4.3, 13.5, -79.1, -66.8], US: [24.5, 49.4, -125, -66.9],
   MX: [14.5, 32.8, -118.5, -86.6],
 };
-const countryOn = (t) => stops.filter((s) => s.from <= t).at(-1)?.country;
+const stopOn = (t) => stops.filter((s) => s.from <= t).at(-1);
+const countryOn = (t) => stopOn(t)?.country;
 const inBox = (p, c) => { const [s, n, w, e] = boxes[c]; return p.lat >= s && p.lat <= n && p.lon >= w && p.lon <= e; };
+// Land outlines (Natural Earth), to drop points out at sea, like ferry crossings.
+const topo = JSON.parse(readFileSync(new URL('../node_modules/world-atlas/countries-50m.json', import.meta.url), 'utf8'));
+const polygons = feature(topo, topo.objects.countries).features
+  .flatMap((f) => (f.geometry?.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry?.coordinates ?? []))
+  .map(([outer]) => {
+    const xs = outer.map((c) => c[0]), ys = outer.map((c) => c[1]);
+    return { ring: outer, box: [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)] };
+  });
+const inRing = (x, y, ring) => {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i], [xj, yj] = ring[j];
+    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside;
+  }
+  return inside;
+};
+const onLand = (p) => polygons.some(({ ring, box }) => p.lon >= box[0] && p.lon <= box[1] && p.lat >= box[2] && p.lat <= box[3] && inRing(p.lon, p.lat, ring));
 const plausible = (p) => [p.t - DAY / 2, p.t, p.t + DAY / 2].some((t) => { const c = countryOn(t); return c && inBox(p, c); });
 // Leave out everything within this distance of home.
 const home = { lat: 47.38, lon: 8.49 };
@@ -39,10 +58,12 @@ const km = (a, b) => {
   return Math.hypot(x, y) * 6371;
 };
 
-const track = [...gpx.matchAll(/<trkpt lat="([-\d.]+)" lon="([-\d.]+)"><time>([^<]+)<\/time>/g)]
+// Points tagged as flights or ferries are left out: the map shows where we went on land.
+const track = [...gpx.matchAll(/<trkpt lat="([-\d.]+)" lon="([-\d.]+)"><time>([^<]+)<\/time>(?:<extension><transport>(\w+)<\/transport>)?/g)]
+  .filter(([, , , , transport]) => transport !== 'flight' && transport !== 'ferry')
   .map(([, lat, lon, time]) => ({ lat: +lat, lon: +lon, t: Date.parse(time) }));
 let points = track
-  .filter((p) => p.t >= tripStart && p.t < tripEnd && km(p, home) > privacyKm && plausible(p))
+  .filter((p) => p.t >= tripStart && p.t < tripEnd && km(p, home) > privacyKm && plausible(p) && onLand(p))
   .sort((a, b) => a.t - b.t);
 
 // Drop short detours that jump far away and straight back (another phone again):
@@ -89,29 +110,25 @@ function simplify(pts, tolerance) {
   return pts.filter((_, k) => keep[k]);
 }
 
-// Split into lines: a new line starts at each new part, and at every flight (a jump of
-// more than 250 km at more than 150 km/h, or over 1000 km in one go), which the map draws as a dashed line.
-const flight = (a, b) => km(a, b) > 1000 || (far(a, b) && km(a, b) / ((b.t - a.t) / 36e5) > 150);
+// Split into lines: a new line starts at each new part, and at every gap of more than
+// 40 km between two points (a flight, a ferry, or hours without a signal). Gaps are left
+// out of the map, so it shows only stretches we have a real track for, not straight jumps.
+const gap = (a, b) => km(a, b) > 40;
 const partOf = (t) => partStarts.filter((s) => t >= s).length - 1;
 const lines = [];
 let prev;
 for (const p of points) {
   const part = partOf(p.t);
-  const mode = prev && flight(prev, p) ? 'flight' : 'ground';
   const last = lines.at(-1);
-  if (mode === 'flight') lines.push({ part, mode, pts: [prev, p] });
-  else if (last && last.part === part && last.mode === mode) last.pts.push(p);
-  else lines.push({ part, mode, pts: prev ? [prev, p] : [p] });
+  const aside = stopOn(p.t).aside;
+  if (last && last.part === part && last.aside === aside && !gap(prev, p)) last.pts.push(p);
+  else lines.push({ part, aside, pts: [p] });
   prev = p;
 }
 
 const round = (n) => Math.round(n * 1000) / 1000;
 const out = lines
-  .map((l) => ({
-    part: l.part,
-    mode: l.mode,
-    coords: (l.mode === 'flight' ? [l.pts[0], l.pts.at(-1)] : simplify(l.pts, 0.004)).map((p) => [round(p.lat), round(p.lon)]),
-  }))
+  .map((l) => ({ part: l.part, ...(l.aside && { aside: true }), coords: simplify(l.pts, 0.004).map((p) => [round(p.lat), round(p.lon)]) }))
   .filter((l) => l.coords.length > 1);
 
 writeFileSync(new URL('../src/data/sabbatical-route.json', import.meta.url), JSON.stringify(out));
