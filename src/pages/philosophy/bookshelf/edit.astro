@@ -1,0 +1,213 @@
+---
+import Base from '../../../layouts/Base.astro';
+
+// A private page for changing book statuses. It isn't linked anywhere and saves
+// through GitHub with Laura's own token, so nobody else can change the shelf.
+const base = import.meta.env.BASE_URL;
+---
+<Base title="Edit bookshelf" description="Change the status of books on the bookshelf." noindex>
+  <header class="page-intro">
+    <h1>Edit bookshelf</h1>
+    <p class="muted">
+      Change a book's status or hide it, then save. The <a href={`${base}philosophy/bookshelf/`}>bookshelf</a> updates about a minute later. Hidden books never show on the site, but they stay in the public code on GitHub.
+    </p>
+  </header>
+
+  <details class="token" id="token-box">
+    <summary>GitHub token</summary>
+    <p class="muted">
+      Saving needs a GitHub token, kept only in this browser. Create one at <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained tokens</a>: choose only the <strong>laura-ochoa</strong> repository, and under Repository permissions set <strong>Contents</strong> to <strong>Read and write</strong>.
+    </p>
+    <label>Token <input id="token" type="password" autocomplete="off" /></label>
+    <button id="save-token" type="button">Remember token</button>
+  </details>
+
+  <div class="tools">
+    <input id="search" type="search" placeholder="Search title or author" />
+    <select id="filter">
+      <option value="all">All books</option>
+      <option value="reading">Reading</option>
+      <option value="read">Read</option>
+      <option value="want">Want to read</option>
+      <option value="dnf">Did not finish</option>
+      <option value="hidden">Hidden</option>
+    </select>
+    <button id="save" type="button" disabled>Save changes</button>
+  </div>
+  <p id="message" class="message" role="status">Loading books…</p>
+
+  <ul id="books" class="books"></ul>
+</Base>
+
+<script>
+  const REPO = 'ikiochoa/laura-ochoa';
+  const PATH = 'src/data/bookshelf.json';
+  const API = `https://api.github.com/repos/${REPO}/contents/${PATH}`;
+  const STATUSES = { reading: 'Reading', read: 'Read', want: 'Want to read', dnf: 'Did not finish' };
+
+  type Book = { id: string; title: string; author: string; status: string; hidden: boolean; year: number };
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const list = $<HTMLUListElement>('books');
+  const message = $<HTMLParagraphElement>('message');
+  const saveButton = $<HTMLButtonElement>('save');
+  const tokenInput = $<HTMLInputElement>('token');
+
+  let books: Book[] = [];
+  let sha = '';
+  const changed = new Set<string>();
+
+  const storage = {
+    get: () => { try { return localStorage.getItem('bookshelf-token') ?? ''; } catch { return ''; } },
+    set: (value: string) => { try { localStorage.setItem('bookshelf-token', value); } catch {} },
+  };
+  tokenInput.value = storage.get();
+  if (!tokenInput.value) $<HTMLDetailsElement>('token-box').open = true;
+  $('save-token').addEventListener('click', () => {
+    storage.set(tokenInput.value.trim());
+    message.textContent = 'Token remembered in this browser.';
+  });
+
+  const headers = () => {
+    const token = tokenInput.value.trim();
+    return { Accept: 'application/vnd.github+json', ...(token ? { Authorization: `Bearer ${token}` } : {}) };
+  };
+
+  // GitHub sends file contents as base64, so decode and encode as UTF-8 for titles like Doña Perfecta.
+  const decode = (b64: string) => new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\n/g, '')), (c) => c.charCodeAt(0)));
+  const encode = (text: string) => {
+    const bytes = new TextEncoder().encode(text);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+    return btoa(binary);
+  };
+
+  async function load() {
+    const response = await fetch(`${API}?ref=main`, { headers: headers(), cache: 'no-store' });
+    if (!response.ok) throw new Error(`GitHub answered ${response.status}`);
+    const file = await response.json();
+    sha = file.sha;
+    books = JSON.parse(decode(file.content));
+    changed.clear();
+    render();
+    message.textContent = `${books.length} books loaded.`;
+  }
+
+  function render() {
+    const query = $<HTMLInputElement>('search').value.trim().toLowerCase();
+    const filter = $<HTMLSelectElement>('filter').value;
+    list.replaceChildren(
+      ...books
+        .filter((b) => (filter === 'all' ? true : filter === 'hidden' ? b.hidden : b.status === filter))
+        .filter((b) => !query || `${b.title} ${b.author}`.toLowerCase().includes(query))
+        .map(row),
+    );
+    saveButton.disabled = changed.size === 0;
+    saveButton.textContent = changed.size ? `Save ${changed.size} change${changed.size > 1 ? 's' : ''}` : 'Save changes';
+  }
+
+  function row(book: Book) {
+    const li = document.createElement('li');
+    li.classList.toggle('is-hidden', book.hidden);
+    li.classList.toggle('is-changed', changed.has(book.id));
+
+    const text = document.createElement('div');
+    const title = document.createElement('strong');
+    title.textContent = book.title;
+    const author = document.createElement('span');
+    author.className = 'muted';
+    author.textContent = book.author;
+    text.append(title, author);
+
+    const select = document.createElement('select');
+    select.setAttribute('aria-label', `Status of ${book.title}`);
+    for (const [value, label] of Object.entries(STATUSES)) select.add(new Option(label, value, false, value === book.status));
+    select.addEventListener('change', () => {
+      // A book that just moved to Read counts for this year.
+      if (select.value === 'read' && book.status !== 'read') book.year = new Date().getFullYear();
+      book.status = select.value;
+      changed.add(book.id);
+      render();
+    });
+
+    const hide = document.createElement('label');
+    const box = document.createElement('input');
+    box.type = 'checkbox';
+    box.checked = book.hidden;
+    box.addEventListener('change', () => {
+      book.hidden = box.checked;
+      changed.add(book.id);
+      render();
+    });
+    hide.append(box, ' Hide');
+
+    li.append(text, select, hide);
+    return li;
+  }
+
+  saveButton.addEventListener('click', async () => {
+    if (!tokenInput.value.trim()) {
+      $<HTMLDetailsElement>('token-box').open = true;
+      message.textContent = 'Add your GitHub token first.';
+      return;
+    }
+    saveButton.disabled = true;
+    message.textContent = 'Saving…';
+    const response = await fetch(API, {
+      method: 'PUT',
+      headers: headers(),
+      body: JSON.stringify({
+        message: `Bookshelf: update ${changed.size} book${changed.size > 1 ? 's' : ''} from the editor`,
+        content: encode(JSON.stringify(books, null, 2) + '\n'),
+        sha,
+        branch: 'main',
+      }),
+    });
+    if (response.ok) {
+      sha = (await response.json()).content.sha;
+      changed.clear();
+      render();
+      message.textContent = 'Saved. The bookshelf updates in about a minute.';
+    } else if (response.status === 409) {
+      message.textContent = 'The shelf changed on GitHub since you opened this page. Reload and try again.';
+    } else if (response.status === 401 || response.status === 403 || response.status === 404) {
+      message.textContent = 'GitHub refused the token. Check it has Contents: Read and write on laura-ochoa.';
+      saveButton.disabled = false;
+    } else {
+      message.textContent = `Saving failed (GitHub answered ${response.status}).`;
+      saveButton.disabled = false;
+    }
+  });
+
+  $('search').addEventListener('input', render);
+  $('filter').addEventListener('change', render);
+  load().catch((error) => (message.textContent = `Couldn't load the books: ${error.message}`));
+</script>
+
+<style>
+  .token { margin-bottom: 1.5rem; padding: 1rem; border: 1px solid var(--line); }
+  .token summary { cursor: pointer; font-weight: 500; }
+  .token label { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; margin: 0.5rem 0; }
+  .tools { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .tools input { flex: 1 1 14rem; }
+  input, select, button, .books :global(select) { font: inherit; padding: 0.4rem 0.6rem; border: 1px solid var(--line); background: var(--surface); color: var(--text); }
+  button { background: var(--accent); color: var(--on-pink); border-color: var(--accent); cursor: pointer; }
+  button:disabled { opacity: 0.5; cursor: default; }
+  .message { min-height: 1.5rem; }
+  .books { list-style: none; padding: 0; margin: 0; }
+  .books :global(li) {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .books :global(li div) { display: flex; flex-direction: column; min-width: 0; }
+  .books :global(li.is-hidden strong) { text-decoration: line-through; opacity: 0.6; }
+  .books :global(li.is-changed) { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+  @media (max-width: 30rem) {
+    .books :global(li) { grid-template-columns: 1fr auto; }
+    .books :global(li div) { grid-column: 1 / -1; }
+  }
+</style>

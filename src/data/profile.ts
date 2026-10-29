@@ -193,7 +193,11 @@ export const beliefs = [
 ];
 
 export const hobbies = [
-  { name: 'Reading', note: 'Books feed my thinking. Some of them live on my bookshelf.' },
+  {
+    name: 'Reading',
+    note: 'Books feed my thinking. All of them live on my bookshelf.',
+    link: { href: 'philosophy/bookshelf/', label: 'See my bookshelf' },
+  },
   {
     name: 'Cycling',
     note: "I'm a keen cyclist. We exchanged bikes instead of rings when we got engaged, and spent our honeymoon cycling around Japan for three weeks.",
