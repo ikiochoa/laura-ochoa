@@ -1,6 +1,12 @@
 // Our family sabbatical: where we were and when. Days are counted from the data, so
 // fixing a date here updates the timeline and every number on the page.
 
+import sanremo from '../assets/sabbatical/sanremo.jpg';
+import sierraNevada from '../assets/sabbatical/sierra-nevada.jpg';
+import campervan from '../assets/sabbatical/campervan.jpg';
+import vanTrailer from '../assets/sabbatical/van-trailer.jpg';
+import granada from '../assets/sabbatical/granada.jpg';
+
 export type CountryCode = 'CH' | 'IT' | 'FR' | 'ES' | 'PT' | 'AT' | 'CO' | 'US' | 'MX' | 'DE';
 
 export const countries: Record<CountryCode, { name: string; language: string; continent: string }> = {
@@ -17,13 +23,24 @@ export const countries: Record<CountryCode, { name: string; language: string; co
 };
 
 // The places we loved most. Each can get a photo later (files in src/assets/sabbatical/).
-export const highlights: { place: string; country: CountryCode; photo?: { src: ImageMetadata; alt: string } }[] = [
-  { place: 'Liguria', country: 'IT' },
-  { place: 'Sierra Nevada', country: 'ES' },
-  { place: 'The Basque Country', country: 'ES' },
-  { place: 'Colombia', country: 'CO' },
-  { place: 'Utah', country: 'US' },
-  { place: 'Colorado', country: 'US' },
+// `at` places each highlight on the route map.
+export const highlights: { place: string; country: CountryCode; at: [number, number]; photo?: { src: ImageMetadata; alt: string } }[] = [
+  {
+    place: 'Liguria',
+    country: 'IT',
+    at: [44.17, 8.34],
+    photo: { src: sanremo, alt: 'Meeting Marianne Vos at the finish line of Milan–San Remo, in March 2025.' },
+  },
+  {
+    place: 'Sierra Nevada',
+    country: 'ES',
+    at: [37.1, -3.4],
+    photo: { src: sierraNevada, alt: 'The snowy peaks of the Sierra Nevada above green hills and a turquoise reservoir.' },
+  },
+  { place: 'The Basque Country', country: 'ES', at: [42.9, -2.03] },
+  { place: 'Colombia', country: 'CO', at: [4.64, -75.57] },
+  { place: 'Utah', country: 'US', at: [38.57, -109.55] },
+  { place: 'Colorado', country: 'US', at: [39.16, -108.73] },
 ];
 
 export type Part = {
@@ -59,6 +76,11 @@ export const parts: Part[] = [
       { country: 'CH', from: '2025-08-18' },
       { country: 'IT', from: '2025-08-24' },
       { country: 'CH', from: '2025-09-16' },
+    ],
+    photos: [
+      { src: vanTrailer, alt: 'Our camper van with its pop-up roof, bikes and the trailer with a pull-out drawer full of crates.' },
+      { src: campervan, alt: 'Camp under the trees: the bike tent with all our bikes, and the camper van with a thumbs up from the window.' },
+      { src: granada, alt: 'Cycling up a quiet road through olive groves and yellow broom near Granada.' },
     ],
   },
   {
