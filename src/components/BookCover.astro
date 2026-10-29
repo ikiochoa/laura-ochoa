@@ -1,0 +1,45 @@
+---
+// A book cover from Open Library, with the title on a coloured block when no cover is found.
+interface Props {
+  title: string;
+  isbn?: string | null;
+  index: number;
+}
+const { title, isbn, index } = Astro.props;
+const colours = ['pink', 'marigold', 'teal', 'purple', 'coral'];
+---
+<div class={`cover ${colours[index % colours.length]}`}>
+  <span>{title}</span>
+  {isbn && (
+    <img
+      src={`https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg?default=false`}
+      alt=""
+      loading="lazy"
+      onerror="this.remove()"
+    />
+  )}
+</div>
+
+<style>
+  .cover {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.6rem;
+    color: var(--on-pink);
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 0.85rem;
+    line-height: 1.2;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+  .cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .pink { background: var(--pink); }
+  .marigold { background: var(--marigold); color: #1f1147; }
+  .teal { background: var(--teal); }
+  .purple { background: var(--purple); }
+  .coral { background: var(--coral); }
+</style>
