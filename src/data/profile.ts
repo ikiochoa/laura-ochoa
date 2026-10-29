@@ -46,9 +46,10 @@ export const chapters: Chapter[] = [
         note: 'ETH Medal for my thesis, "What influences environmental patenting". It argued that the climate crisis can only be solved with technology transfer.',
       },
       {
-        title: "Bachelor's degree",
-        org: 'Mexico City',
-        note: 'I left Guadalajara at 19 to study in the capital.',
+        title: "Bachelor's degree, Telematic Engineering",
+        org: 'Instituto Tecnológico Autónomo de México (ITAM)',
+        period: '2004 – 2009',
+        note: 'Grade 9.25/10. Honorific mention for my thesis, "Mass collaboration applied to a coordinating platform of joint trips for the ITAM".',
       },
     ],
   },

@@ -18,11 +18,13 @@ const thoughts = await getThoughts();
   <section class="beliefs">
     {beliefs.map((line) => <p>{line}</p>)}
   </section>
-  <CardGrid count={thoughts.length} empty="The first thoughts are on their way.">
+  {thoughts.length > 0 && (
+  <CardGrid count={thoughts.length}>
     {thoughts.map((t) => (
       <Card href={`${base}philosophy/${t.id}/`} title={t.data.title} meta={t.data.written.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })} summary={t.data.summary} />
     ))}
   </CardGrid>
+  )}
 </Base>
 
 <style>
