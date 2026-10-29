@@ -12,9 +12,9 @@ stack:
   - name: GitHub
     role: Keeps the code and its history. Every change is proposed and reviewed as a pull request.
   - name: GitHub Actions
-    role: Checks automatically that the site still builds before anything is merged.
-  - name: Netlify
-    role: Hosts the site, publishes every merged change, and gives each pull request its own preview link.
+    role: Checks that the site still builds before anything is merged, and publishes every merged change.
+  - name: GitHub Pages
+    role: Hosts the site for free, as plain static pages.
   - name: Claude Code
     role: My building partner. I describe what I want, and we design and build it together.
 ---

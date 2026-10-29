@@ -1,20 +1,78 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import PhilosophyNav from '../../../components/PhilosophyNav.astro';
+import BookCover from '../../../components/BookCover.astro';
 import Card from '../../../components/Card.astro';
 import CardGrid from '../../../components/CardGrid.astro';
 import { getBooks } from '../../../data/content';
+import shelf from '../../../data/bookshelf.json';
 
 const base = import.meta.env.BASE_URL;
-const books = await getBooks();
+// Books with my own notes and highlights, kept as Markdown in src/content/books.
+const notes = await getBooks();
+
+const reading = shelf.filter((b) => b.status === 'reading');
+const read = shelf.filter((b) => b.status === 'read');
+const years = [...new Set(read.map((b) => b.year))].sort((a, b) => b - a);
+const loved = read.filter((b) => b.loved).length;
+const first = Math.min(...read.map((b) => b.year));
+const sections = [
+  { label: 'Reading now', books: reading },
+  ...years.map((year) => ({ label: String(year), books: read.filter((b) => b.year === year) })),
+];
 ---
-<Base title="Bookshelf" description="Books Laura Ochoa has read, with her highlights.">
+<Base title="Bookshelf" description="Books Laura Ochoa has read, with a short summary of each.">
   <PhilosophyNav />
   <header class="page-intro">
     <h1>Bookshelf</h1>
-    <p class="muted">Books that shaped my thinking, with the lines I highlighted.</p>
+    <p class="muted">{read.length} books read since {first}, {loved} of them loved, and {reading.length} on the go. Mostly about people, the mind and the body, parenting, and how we work.</p>
   </header>
-  <CardGrid count={books.length} empty="The first books are on their way.">
-    {books.map((b) => <Card href={`${base}philosophy/bookshelf/${b.id}/`} title={b.data.title} meta={b.data.author} />)}
-  </CardGrid>
+
+  {sections.map((section) => (
+    <section class="shelf">
+      <h2>{section.label}</h2>
+      <ul>
+        {section.books.map((book, i) => (
+          <li>
+            <BookCover title={book.title} isbn={book.isbn} index={i} />
+            <div>
+              <h3>{book.title}</h3>
+              <p class="author">{book.author}{book.loved && <span class="loved"> · ♥ Loved it</span>}</p>
+              <p class="muted">{book.summary}</p>
+              {book.note && <p class="note">“{book.note}”</p>}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  {notes.length > 0 && (
+    <section class="shelf">
+      <h2>Notes and highlights</h2>
+      <CardGrid count={notes.length}>
+        {notes.map((b) => <Card href={`${base}philosophy/bookshelf/${b.id}/`} title={b.data.title} meta={b.data.author} />)}
+      </CardGrid>
+    </section>
+  )}
+
+  <p class="muted credit">Covers from <a href="https://openlibrary.org/">Open Library</a>. My reading list lives on Goodreads.</p>
 </Base>
+
+<style>
+  .shelf { padding-top: 1.5rem; border-top: 1px solid var(--line); margin-top: 1.5rem; }
+  .shelf ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: 1.5rem;
+  }
+  .shelf li { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1rem; align-items: start; }
+  .shelf h3 { font-size: 1.05rem; margin: 0 0 0.2rem; }
+  .shelf p { margin: 0 0 0.4rem; font-size: 0.92rem; }
+  .author { font-weight: 500; }
+  .loved { color: var(--pink); }
+  .note { font-style: italic; border-left: 3px solid var(--accent); padding-left: 0.6rem; }
+  .credit { margin-top: 2rem; font-size: 0.85rem; }
+</style>

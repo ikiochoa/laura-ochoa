@@ -2,7 +2,7 @@
 
 My personal space to tell people about who I am: my story, my work, and a garden of ideas, book notes and projects.
 
-Hosted on [Netlify](https://www.netlify.com/), configured in `netlify.toml`.
+Hosted on GitHub Pages at https://ikiochoa.github.io/laura-ochoa/, published by `.github/workflows/deploy.yml` whenever `main` changes.
 
 ## Where things live
 
