@@ -1,6 +1,12 @@
 // Our family sabbatical: where we were and when. Days are counted from the data, so
 // fixing a date here updates the timeline and every number on the page.
 
+import sanremo from '../assets/sabbatical/sanremo.jpg';
+import sierraNevada from '../assets/sabbatical/sierra-nevada.jpg';
+import campervan from '../assets/sabbatical/campervan.jpg';
+import vanTrailer from '../assets/sabbatical/van-trailer.jpg';
+import granada from '../assets/sabbatical/granada.jpg';
+
 export type CountryCode = 'CH' | 'IT' | 'FR' | 'ES' | 'PT' | 'AT' | 'CO' | 'US' | 'MX' | 'DE';
 
 export const countries: Record<CountryCode, { name: string; language: string; continent: string }> = {
@@ -15,6 +21,27 @@ export const countries: Record<CountryCode, { name: string; language: string; co
   MX: { name: 'Mexico', language: 'Spanish', continent: 'North America' },
   DE: { name: 'Germany', language: 'German', continent: 'Europe' },
 };
+
+// The places we loved most. Each can get a photo later (files in src/assets/sabbatical/).
+// `at` places each highlight on the route map.
+export const highlights: { place: string; country: CountryCode; at: [number, number]; photo?: { src: ImageMetadata; alt: string } }[] = [
+  {
+    place: 'Liguria',
+    country: 'IT',
+    at: [44.17, 8.34],
+    photo: { src: sanremo, alt: 'Meeting Marianne Vos at the finish line of Milan–San Remo, in March 2025.' },
+  },
+  {
+    place: 'Sierra Nevada',
+    country: 'ES',
+    at: [37.1, -3.4],
+    photo: { src: sierraNevada, alt: 'The snowy peaks of the Sierra Nevada above green hills and a turquoise reservoir.' },
+  },
+  { place: 'The Basque Country', country: 'ES', at: [42.9, -2.03] },
+  { place: 'Colombia', country: 'CO', at: [4.64, -75.57] },
+  { place: 'Utah', country: 'US', at: [38.57, -109.55] },
+  { place: 'Colorado', country: 'US', at: [39.16, -108.73] },
+];
 
 export type Part = {
   number: string;
@@ -50,6 +77,11 @@ export const parts: Part[] = [
       { country: 'IT', from: '2025-08-24' },
       { country: 'CH', from: '2025-09-16' },
     ],
+    photos: [
+      { src: vanTrailer, alt: 'Our camper van with its pop-up roof, bikes and the trailer with a pull-out drawer full of crates.' },
+      { src: campervan, alt: 'Camp under the trees: the bike tent with all our bikes, and the camper van with a thumbs up from the window.' },
+      { src: granada, alt: 'Cycling up a quiet road through olive groves and yellow broom near Granada.' },
+    ],
   },
   {
     number: 'Two',
@@ -67,10 +99,10 @@ export const parts: Part[] = [
   {
     number: 'Three',
     title: 'Mexico and the American southwest',
-    ride: 'Mountain bike trails across five US states',
+    ride: 'Mountain bike trails across six US states',
     color: 'teal',
     story:
-      'After figuring out how to ship a camper to another country, we went to Mexico while our car was being shipped to the USA. Then we spent almost three months in Texas, New Mexico, Utah, California and Nevada, looking for the best mountain bike trails.',
+      'After figuring out how to ship a camper to another country, we went to Mexico while our car was being shipped to the USA. Then we spent almost three months in Texas, New Mexico, Utah, California, Nevada and Colorado, looking for the best mountain bike trails.',
     stops: [
       { country: 'MX', from: '2026-02-27' },
       { country: 'US', from: '2026-03-18' },
@@ -125,7 +157,7 @@ export const stats = {
   continents: unique(daysPerCountry.map((c) => countries[c.country].continent)).length,
   languages: unique(daysPerCountry.map((c) => countries[c.country].language)).length,
   borders: stays.length - 1,
-  usStates: 5,
+  usStates: 6,
 };
 
 export const story = {

@@ -3,7 +3,8 @@ import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import StoryNav from '../../components/StoryNav.astro';
 import Flag from '../../components/Flag.astro';
-import { countries, parts, stays, totalDays, daysPerCountry, stats, story } from '../../data/sabbatical';
+import RouteMap from '../../components/RouteMap.astro';
+import { countries, highlights, parts, stays, totalDays, daysPerCountry, stats, story } from '../../data/sabbatical';
 
 const fmt = (iso: string, opts: Intl.DateTimeFormatOptions) =>
   new Date(iso).toLocaleDateString('en-GB', { timeZone: 'UTC', ...opts });
@@ -54,6 +55,12 @@ const statTiles = [
     ))}
   </section>
 
+  <section class="map">
+    <h2>Where we went</h2>
+    <p class="muted">Our GPS track, one color per part of the trip. Dashed lines are flights, and the dots are our highlights. Pick a part to zoom in.</p>
+    <RouteMap />
+  </section>
+
   <section class="route">
     <h2>The route at a glance</h2>
     <p class="muted">Each block is one stay, as wide as the days we spent there. Hover or tap a block to see where and when.</p>
@@ -82,6 +89,27 @@ const statTiles = [
     <ul class="legend">
       {parts.map((part) => (
         <li><span class="swatch" style={`background: var(--${part.color})`}></span>Part {part.number.toLowerCase()}: {part.title}</li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="highlights">
+    <h2>Our highlights</h2>
+    <p class="muted">The places we would go back to tomorrow.</p>
+    <ul>
+      {highlights.map((h) => (
+        <li>
+          {h.photo
+            ? <Image src={h.photo.src} alt={h.photo.alt} widths={[400, 800]} sizes="(min-width: 48rem) 33vw, 100vw" />
+            : <span class="no-photo" aria-hidden="true"><Flag code={h.country} size="3rem" /></span>}
+          <span class="hl-text">
+            <Flag code={h.country} size="1.5rem" title={countries[h.country].name} />
+            <span>
+              <strong>{h.place}</strong>
+              {h.place !== countries[h.country].name && <span class="muted">{countries[h.country].name.replace(/^the /, 'The ')}</span>}
+            </span>
+          </span>
+        </li>
       ))}
     </ul>
   </section>
@@ -215,6 +243,27 @@ const statTiles = [
   .legend { list-style: none; padding: 0; margin: 0.75rem 0 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; font-size: 0.9rem; }
   .legend li { display: flex; align-items: center; gap: 0.5rem; }
   .swatch { width: 0.9rem; height: 0.9rem; display: inline-block; }
+
+  .highlights ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: 0.75rem;
+  }
+  .highlights li { border: 1px solid var(--line); background: var(--surface); }
+  .highlights li:nth-child(4n + 1) { border-top: 4px solid var(--pink); }
+  .highlights li:nth-child(4n + 2) { border-top: 4px solid var(--marigold); }
+  .highlights li:nth-child(4n + 3) { border-top: 4px solid var(--teal); }
+  .highlights li:nth-child(4n + 4) { border-top: 4px solid var(--purple); }
+  .highlights img, .no-photo { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+  /* Until a highlight has its photo, it shows its flag on a quiet panel. */
+  .no-photo { display: flex; align-items: center; justify-content: center; background: var(--line); }
+  .hl-text { display: flex; align-items: center; gap: 0.75rem; padding: 0.9rem 1rem; }
+  .hl-text strong, .hl-text .muted { display: block; line-height: 1.3; }
+  .hl-text strong { font-family: var(--display); font-size: 1.15rem; }
+  .hl-text .muted { font-size: 0.85rem; }
 
   .bars { list-style: none; padding: 0; margin: 1rem 0 0; max-width: 44rem; display: flex; flex-direction: column; gap: 0.5rem; }
   .bars li { display: grid; grid-template-columns: 9.5rem 1fr 2.5rem; align-items: center; gap: 0.75rem; }

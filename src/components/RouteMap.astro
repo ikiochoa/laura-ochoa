@@ -1,0 +1,108 @@
+---
+// The whole trip on a map: our GPS track, one color per part, flights as dashed lines.
+// The route comes from scripts/route-from-gpx.mjs; tiles from CARTO and OpenStreetMap.
+import route from '../data/sabbatical-route.json';
+import { parts, highlights } from '../data/sabbatical';
+
+const data = {
+  route,
+  colors: parts.map((p) => p.color),
+  highlights: highlights.map((h) => ({ place: h.place, at: h.at })),
+};
+---
+<div class="route-map-wrap">
+  <div class="route-map" data-route={JSON.stringify(data)} role="img" aria-label="Map of our route through Europe, Colombia, Mexico and the USA">
+    <noscript><p class="muted">The map needs JavaScript.</p></noscript>
+  </div>
+  <div class="zoom" role="group" aria-label="Zoom the map to a part of the trip">
+    <button type="button" data-part="all" aria-pressed="true">Whole trip</button>
+    {parts.map((part, i) => (
+      <button type="button" data-part={i} aria-pressed="false">
+        <span class="swatch" style={`background: var(--${part.color})`}></span>{part.title}
+      </button>
+    ))}
+  </div>
+</div>
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+
+  type Line = { part: number; mode: 'ground' | 'flight'; coords: [number, number][] };
+  type Data = { route: Line[]; colors: string[]; highlights: { place: string; at: [number, number] }[] };
+
+  for (const el of document.querySelectorAll<HTMLElement>('.route-map')) {
+    const data: Data = JSON.parse(el.dataset.route!);
+    const css = getComputedStyle(document.documentElement);
+    const color = (name: string) => css.getPropertyValue(`--${name}`).trim();
+    const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+
+    const map = L.map(el, { scrollWheelZoom: false, worldCopyJump: true, attributionControl: true });
+    L.tileLayer(`https://{s}.basemaps.cartocdn.com/${dark ? 'dark_nolabels' : 'light_nolabels'}/{z}/{x}/{y}{r}.png`, {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 12,
+    }).addTo(map);
+
+    const layers = data.route.map((line) =>
+      L.polyline(line.coords, {
+        color: color(data.colors[line.part]),
+        weight: line.mode === 'flight' ? 1.5 : 2.5,
+        opacity: line.mode === 'flight' ? 0.7 : 0.95,
+        dashArray: line.mode === 'flight' ? '4 6' : undefined,
+        interactive: false,
+      }).addTo(map),
+    );
+
+    for (const h of data.highlights) {
+      L.circleMarker(h.at, { radius: 6, color: color('surface'), weight: 2, fillColor: color('text'), fillOpacity: 1 })
+        .bindTooltip(h.place, { direction: 'top', offset: [0, -6] })
+        .addTo(map);
+    }
+
+    // Zoom to one part of the trip, using only the ground track so flights don't widen it.
+    const boundsFor = (part: string) => {
+      const picked = layers.filter((_, i) => part === 'all' || (String(data.route[i].part) === part && data.route[i].mode === 'ground'));
+      return L.featureGroup(picked).getBounds();
+    };
+    map.fitBounds(boundsFor('all'), { padding: [16, 16] });
+
+    const buttons = el.closest('.route-map-wrap')!.querySelectorAll<HTMLButtonElement>('.zoom button');
+    for (const button of buttons) {
+      button.addEventListener('click', () => {
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+        map.flyToBounds(boundsFor(button.dataset.part!), { padding: [24, 24], duration: 0.8 });
+      });
+    }
+  }
+</script>
+
+<style>
+  .route-map {
+    height: clamp(20rem, 55vw, 32rem);
+    margin-top: 1.25rem;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .zoom { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+  .zoom button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .zoom button:hover { border-color: var(--text); }
+  .zoom button[aria-pressed='true'] { border-color: var(--text); box-shadow: inset 0 -3px 0 var(--text); }
+  .swatch { width: 0.9rem; height: 0.9rem; display: inline-block; }
+  .route-map :global(.leaflet-tooltip) {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 500;
+    border-radius: 0;
+  }
+</style>
