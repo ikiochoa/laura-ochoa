@@ -6,6 +6,17 @@ import sierraNevada from '../assets/sabbatical/sierra-nevada.jpg';
 import campervan from '../assets/sabbatical/campervan.jpg';
 import vanTrailer from '../assets/sabbatical/van-trailer.jpg';
 import granada from '../assets/sabbatical/granada.jpg';
+import salento from '../assets/sabbatical/salento.jpg';
+import shaferTrail from '../assets/sabbatical/shafer-trail.jpg';
+import riohachaTaxi from '../assets/sabbatical/riohacha-taxi.jpg';
+import chicamocha from '../assets/sabbatical/chicamocha.jpg';
+import villaDeLeyva from '../assets/sabbatical/villa-de-leyva.jpg';
+import lasGachas from '../assets/sabbatical/las-gachas.jpg';
+import barichara from '../assets/sabbatical/barichara.jpg';
+import baricharaValley from '../assets/sabbatical/barichara-valley.jpg';
+import monahans from '../assets/sabbatical/monahans-sand-hills.jpg';
+import goblinValley from '../assets/sabbatical/goblin-valley.jpg';
+import slotCanyon from '../assets/sabbatical/slot-canyon.jpg';
 
 export type CountryCode = 'CH' | 'IT' | 'FR' | 'ES' | 'PT' | 'AT' | 'CO' | 'US' | 'MX' | 'DE';
 
@@ -38,8 +49,18 @@ export const highlights: { place: string; country: CountryCode; at: [number, num
     photo: { src: sierraNevada, alt: 'The snowy peaks of the Sierra Nevada above green hills and a turquoise reservoir.' },
   },
   { place: 'The Basque Country', country: 'ES', at: [42.9, -2.03] },
-  { place: 'Colombia', country: 'CO', at: [4.64, -75.57] },
-  { place: 'Utah', country: 'US', at: [38.57, -109.55] },
+  {
+    place: 'Colombia',
+    country: 'CO',
+    at: [4.64, -75.57],
+    photo: { src: salento, alt: 'Green hills, trees and mountains in the coffee region around Salento.' },
+  },
+  {
+    place: 'Utah',
+    country: 'US',
+    at: [38.57, -109.55],
+    photo: { src: shaferTrail, alt: 'The Shafer Trail switchbacks winding down red canyon walls near Moab.' },
+  },
   { place: 'Colorado', country: 'US', at: [39.16, -108.73] },
 ];
 
@@ -96,6 +117,14 @@ export const parts: Part[] = [
       { country: 'US', from: '2025-12-19', aside: true },
       { country: 'CO', from: '2026-01-08' },
     ],
+    photos: [
+      { src: riohachaTaxi, alt: 'A yellow taxi in Riohacha with a wooden crate on the roof that says Enjoy the ride.' },
+      { src: chicamocha, alt: 'Riding a mountain bike on a dirt track high above the Chicamocha canyon.' },
+      { src: villaDeLeyva, alt: 'Two old jeeps parked on a cobblestone street of white houses in Villa de Leyva.' },
+      { src: lasGachas, alt: 'A small rider on a bike heading down a stone path through green hills near Las Gachas.' },
+      { src: barichara, alt: 'A cobbled street of whitewashed houses with turquoise doors in Barichara.' },
+      { src: baricharaValley, alt: 'Looking down from Barichara over a wide green valley and mountains.' },
+    ],
   },
   {
     number: 'Three',
@@ -107,6 +136,11 @@ export const parts: Part[] = [
     stops: [
       { country: 'MX', from: '2026-02-27' },
       { country: 'US', from: '2026-03-18' },
+    ],
+    photos: [
+      { src: monahans, alt: 'Footprints along the ridge of a sand dune at the Monahans Sand Hills in Texas.' },
+      { src: goblinValley, alt: 'A striped butte under a cloudy sky at Goblin Valley, Utah.' },
+      { src: slotCanyon, alt: 'Smooth red and white walls of a narrow slot canyon in Utah.' },
     ],
   },
   {
