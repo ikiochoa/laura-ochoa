@@ -11,15 +11,20 @@ const base = import.meta.env.BASE_URL;
 // Books with my own notes and highlights, kept as Markdown in src/content/books.
 const notes = await getBooks();
 
-const reading = shelf.filter((b) => b.status === 'reading');
-const read = shelf.filter((b) => b.status === 'read');
+// Hidden books stay in the data but never reach the page.
+const books = shelf.filter((b) => !b.hidden);
+const byStatus = (status: string) => books.filter((b) => b.status === status);
+const reading = byStatus('reading');
+const read = byStatus('read');
 const years = [...new Set(read.map((b) => b.year))].sort((a, b) => b - a);
 const loved = read.filter((b) => b.loved).length;
 const first = Math.min(...read.map((b) => b.year));
 const sections = [
   { label: 'Reading now', books: reading },
   ...years.map((year) => ({ label: String(year), books: read.filter((b) => b.year === year) })),
-];
+  { label: 'Want to read', books: byStatus('want') },
+  { label: 'Did not finish', books: byStatus('dnf') },
+].filter((section) => section.books.length > 0);
 ---
 <Base title="Bookshelf" description="Books Laura Ochoa has read, with a short summary of each.">
   <PhilosophyNav />
