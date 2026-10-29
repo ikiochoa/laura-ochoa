@@ -50,7 +50,8 @@ export type Part = {
   color: 'pink' | 'marigold' | 'teal' | 'purple';
   story: string;
   // Each stop starts on this date and lasts until the day before the next stop.
-  stops: { country: CountryCode; from: string; note?: string }[];
+  // `aside` marks a short trip away, which the map shows but leaves out when zooming to the part.
+  stops: { country: CountryCode; from: string; aside?: boolean }[];
   // Photos for this part go here once we pick them (files in src/assets/sabbatical/).
   photos?: { src: ImageMetadata; alt: string }[];
 };
@@ -92,7 +93,7 @@ export const parts: Part[] = [
       'We travelled up and down the Colombian mountains in a truck camper, and this time we only brought three bikes. We explored different mountain ranges and valleys, went to the coffee region, saw wonderful nature and soaked up the vibe of big cities like Bogotá and Medellín. We could see and feel the Colombian passion for cycling, and we met extremely cool people. In between, we made a little pit stop in the USA for Christmas.',
     stops: [
       { country: 'CO', from: '2025-09-21' },
-      { country: 'US', from: '2025-12-19' },
+      { country: 'US', from: '2025-12-19', aside: true },
       { country: 'CO', from: '2026-01-08' },
     ],
   },
