@@ -22,6 +22,7 @@ import { profile, hobbies } from '../../data/profile';
   <section class="prose facts">
     <h2>Places and languages</h2>
     <p>I've lived in {profile.places.slice(0, -1).join(', ')} and {profile.places.at(-1)}, and I love {profile.loves.join(' and ')}.</p>
+    <p>If living in a camper counts, I also lived in {profile.camperPlaces.join(' and ')} for a few months each.</p>
     <p>I speak {profile.languages.slice(0, -1).join(', ')} and {profile.languages.at(-1)}.</p>
   </section>
 </Base>
